@@ -1,0 +1,64 @@
+package ru.pascalcode.tasktracker.bot.updatehandler.report;
+
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import ru.pascalcode.tasktracker.bot.dto.TaskLogDto;
+import ru.pascalcode.tasktracker.bot.updatehandler.AbstractUpdateHandler;
+import ru.pascalcode.tasktracker.model.TaskLog;
+import ru.pascalcode.tasktracker.model.User;
+import ru.pascalcode.tasktracker.service.TaskLogService;
+import ru.pascalcode.tasktracker.service.TaskService;
+import ru.pascalcode.tasktracker.service.UserService;
+
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+
+public abstract class AbstractReportUpdateHandler extends AbstractUpdateHandler {
+
+    private static final String WEEK_PROGRESS = "%s из %sч. за неделю (%s%%)";
+
+    protected AbstractReportUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
+        super(userService, taskService, taskLogService);
+    }
+
+    protected void setReportToAnswer(User user, LocalDateTime reportDay, SendMessage answer) {
+        List<TaskLog> taskLogList = taskLogService.getReport(user, reportDay);
+        List<TaskLogDto> taskLogDtoList = ReportUtils.toDtoList(taskLogList);
+        StringJoiner stringJoiner = new StringJoiner("\n");
+        stringJoiner.add("Отчет за " + reportDay.format(DateTimeFormatter.ofPattern("d MMMM yyyy")) + "\n");
+        for (TaskLogDto taskLogDto : taskLogDtoList) {
+            stringJoiner.add(taskLogDto.toString());
+        }
+        stringJoiner.add(ReportUtils.getTotal(taskLogDtoList).toString());
+        if (Boolean.TRUE.equals(user.getWeekHoursStat())) {
+            stringJoiner.add(getProgressForWeek(user, reportDay));
+        }
+        answer.setText(stringJoiner.toString());
+    }
+
+    public String getProgressForWeek(User user, LocalDateTime reportDay) {
+        int firstDayOfWeek = user.getFirstDayOfWeek();
+        int plannedHours = user.getMinWeekHours();
+        int currentDayOfWeek = reportDay.getDayOfWeek().getValue();
+        int dayDiff = currentDayOfWeek >= firstDayOfWeek ?
+                currentDayOfWeek - firstDayOfWeek :
+                currentDayOfWeek + firstDayOfWeek - 1;
+        LocalDateTime start = reportDay.minusDays(dayDiff).with(LocalTime.MIN);
+        LocalDateTime stop = reportDay.with(LocalTime.MAX);
+        List<TaskLog> taskLogList = taskLogService.getReport(user, start, stop);
+        long totalMillis = ReportUtils.getTotalMillis(taskLogList);
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+        calendar.setTime(new Date(totalMillis - 21_600_000));
+        int hour = (int) (totalMillis / 3600000) % 60;
+        int min = (int) (totalMillis / 60000) % 60;
+        int sec = (int) (totalMillis / 1000) % 60;
+        String totalTime = hour + ":" + getSecOrMin(min) + ":" + getSecOrMin(sec);
+        int percent = (int) totalMillis / (plannedHours * 36000);
+        return String.format(WEEK_PROGRESS, totalTime, plannedHours, percent);
+    }
+
+    private String getSecOrMin(int i) {
+        return String.valueOf(i).length() == 1 ? "0" + i : String.valueOf(i);
+    }
+}
