@@ -1,0 +1,1 @@
+Telegram bot for calculating the time spent on tasks
