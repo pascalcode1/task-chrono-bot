@@ -10,8 +10,7 @@ create table users
     money_stat        boolean,
     min_week_hours    integer,
     first_day_of_week integer,
-    week_hours_stat   boolean,
-    precontact_mode   boolean
+    week_hours_stat   boolean
 );
 
 create table task

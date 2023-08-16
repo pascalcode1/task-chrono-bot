@@ -39,8 +39,6 @@ public class UpdateHandlerFactory {
                 return (TodayReportUpdateHandler) applicationContext.getBean("todayReportUpdateHandler");
             case YESTERDAY_REPORT_BTN:
                 return (YesterdayReportUpdateHandler) applicationContext.getBean("yesterdayReportUpdateHandler");
-            case PRECONTACT_BTN:
-                return (PrecontactUpdateHandler) applicationContext.getBean("precontactUpdateHandler");
             case BACK_BTN:
                 return (BackUpdateHandler) applicationContext.getBean("backUpdateHandler");
 
@@ -48,10 +46,6 @@ public class UpdateHandlerFactory {
                 return (EnableWeekProgressUpdateHandler) applicationContext.getBean("enableWeekProgressUpdateHandler");
             case WEEK_HOURS_STATE_OFF_BTN:
                 return (DisableWeekProgressUpdateHandler) applicationContext.getBean("disableWeekProgressUpdateHandler");
-            case PRECONTACT_MODE_ON_BTN:
-                return (EnablePrecontactModeUpdateHandler) applicationContext.getBean("enablePrecontactModeUpdateHandler");
-            case PRECONTACT_MODE_OFF_BTN:
-                return (DisablePrecontactModeUpdateHandler) applicationContext.getBean("disablePrecontactModeUpdateHandler");
             case FIRST_DAY_OF_WEEK_BTN:
                 return (ChooseFirstDayOfWeekUpdateHandler) applicationContext.getBean("chooseFirstDayOfWeekUpdateHandler");
             case MIN_WEEK_HOURS_BTN:

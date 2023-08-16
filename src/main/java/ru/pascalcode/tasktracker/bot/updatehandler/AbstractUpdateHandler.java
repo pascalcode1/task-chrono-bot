@@ -66,9 +66,6 @@ public abstract class AbstractUpdateHandler implements UpdateHandler {
             row.add(new KeyboardButton(TODAY_REPORT_BTN));
         }
         row.add(new KeyboardButton(YESTERDAY_REPORT_BTN));
-        if (Boolean.TRUE.equals(user.getPrecontactMode())) {
-            row.add(new KeyboardButton(PRECONTACT_BTN));
-        }
         keyboard.add(row);
 
         replyKeyboardMarkup.setKeyboard(keyboard);

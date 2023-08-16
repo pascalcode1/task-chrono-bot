@@ -35,8 +35,6 @@ public class User {
 
     private Boolean weekHoursStat;
 
-    private Boolean precontactMode;
-
     public User(Long telegramId) {
         this.telegramId = telegramId;
         setDefaults();

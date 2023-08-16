@@ -33,7 +33,7 @@ public class TaskService {
     }
 
     public List<Task> getActiveTasks(User user) {
-        return taskRepository.findAllByUserAndArchived(user, false);
+        return taskRepository.findAllByUserAndArchivedOrderByIdAsc(user, false);
     }
 
     public List<Task> getAllTask(User user) {

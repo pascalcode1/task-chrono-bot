@@ -22,8 +22,6 @@ public abstract class AbstractSettingsUpdateHandler extends AbstractUpdateHandle
     private static final String CURRENT_SETTINGS = "Текущие настройки бота";
     private static final String WEEK_PROGRESS_ON = "✅ прогресс за неделю включен в отчет";
     private static final String WEEK_PROGRESS_OFF = "❌ прогресс за неделю не включен в отчет";
-    private static final String PRECONTACT_MODE_ON = "✅ Режим \"Преконтакт\" включен";
-    private static final String PRECONTACT_MODE_OFF = "❌ Режим \"Преконтакт\" выключен";
     private static final String FIRST_DAY_OF_WEEK = "\uD83D\uDCC6 Первый день недели: %s";
     private static final String WIN_WEEK_HOURS = "\uD83D\uDD54 Норматив часов в неделю: %s";
 
@@ -35,7 +33,6 @@ public abstract class AbstractSettingsUpdateHandler extends AbstractUpdateHandle
         StringJoiner stringJoiner = new StringJoiner("\n");
         stringJoiner.add(CURRENT_SETTINGS);
         stringJoiner.add(Boolean.TRUE.equals(user.getWeekHoursStat()) ? WEEK_PROGRESS_ON : WEEK_PROGRESS_OFF);
-        stringJoiner.add(Boolean.TRUE.equals(user.getPrecontactMode()) ? PRECONTACT_MODE_ON : PRECONTACT_MODE_OFF);
         stringJoiner.add(String.format(FIRST_DAY_OF_WEEK, SettingsUtils.getNameOfDay(user.getFirstDayOfWeek())));
         stringJoiner.add(String.format(WIN_WEEK_HOURS, user.getMinWeekHours()));
         answer.setText(stringJoiner.toString());
@@ -51,11 +48,6 @@ public abstract class AbstractSettingsUpdateHandler extends AbstractUpdateHandle
             keyboard.add(new KeyboardRow(List.of(new KeyboardButton(WEEK_HOURS_STATE_OFF_BTN))));
         } else {
             keyboard.add(new KeyboardRow(List.of(new KeyboardButton(WEEK_HOURS_STATE_ON_BTN))));
-        }
-        if (Boolean.TRUE.equals(user.getPrecontactMode())) {
-            keyboard.add(new KeyboardRow(List.of(new KeyboardButton(PRECONTACT_MODE_OFF_BTN))));
-        } else {
-            keyboard.add(new KeyboardRow(List.of(new KeyboardButton(PRECONTACT_MODE_ON_BTN))));
         }
         keyboard.add(new KeyboardRow(List.of(new KeyboardButton(FIRST_DAY_OF_WEEK_BTN))));
         keyboard.add(new KeyboardRow(List.of(new KeyboardButton(MIN_WEEK_HOURS_BTN))));
