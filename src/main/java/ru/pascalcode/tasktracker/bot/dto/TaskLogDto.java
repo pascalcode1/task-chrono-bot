@@ -16,7 +16,7 @@ public class TaskLogDto {
 
     @Override
     public String toString() {
-        return name + ":   " + getTime() + "   (" + getDecimal() + ")";
+        return name + ":    " + getTime() + "    (" + getDecimal() + ")";
     }
 
     private String getTime() {

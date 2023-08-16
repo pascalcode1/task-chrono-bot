@@ -21,8 +21,8 @@ public class ChooseFirstDayOfWeekUpdateHandler extends AbstractSettingsUpdateHan
 
     @Override
     protected void handle(Update update, SendMessage answer, User user) {
-        answer.setText("Выберите день недели, который будет считаться первым.\n" +
-                "Текущая настройка: " + SettingsUtils.getNameOfDay(user.getFirstDayOfWeek()));
+        answer.setText("Choose the first day of week.\n" +
+                "Current setting: " + SettingsUtils.getNameOfDay(user.getFirstDayOfWeek()));
     }
 
     @Override

@@ -17,10 +17,11 @@ public class StartUpdateHandler extends AbstractUpdateHandler {
 
     @Override
     protected void handle(Update update, SendMessage answer, User user) {
-        answer.setText("Привет! Я буду помогать тебе вести учёт времени, потраченного на задачи. " +
-                "Просто отправляй мне номера тасок или названия задач, которые сейчас в работе и сообщи, когда задачи на сегодня будут закончены.\n" +
-                "Когда потребуется узнать время, потраченное на задачи, запроси отчёт.\n" +
-                "Продуктивного существования!");
+        answer.setText("""
+                Sup! I'm going to help you to keep track of time spent.
+                Just send me task numbers and let me know when you finish.
+                You can ask me a report for today or yesterday.
+                Stay productive!""");
     }
 
 }

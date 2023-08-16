@@ -20,7 +20,7 @@ import static ru.pascalcode.tasktracker.bot.Buttons.*;
 
 public abstract class AbstractUpdateHandler implements UpdateHandler {
 
-    private static int TASK_ROW_LIMIT = 3;
+    private static final int TASK_ROW_LIMIT = 3;
 
     protected final UserService userService;
 

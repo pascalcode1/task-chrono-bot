@@ -22,7 +22,7 @@ public class TodayReportUpdateHandler extends AbstractReportUpdateHandler {
     protected void handle(Update update, SendMessage answer, User user) {
         TaskLog taskLog = taskLogService.getUncompletedTask(user);
         if (taskLog != null) {
-            answer.setText("Действие недоступно. Сперва возьмите перерыв :)");
+            answer.setText("Action not available. Take a break first :)");
         } else {
             LocalDateTime reportDay = LocalDateTime.now();
             setReportToAnswer(user, reportDay, answer);

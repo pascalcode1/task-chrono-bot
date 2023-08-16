@@ -54,7 +54,7 @@ public class ReportUtils {
                 .map(TaskLogDto::getMillis)
                 .collect(Collectors.summarizingLong(Long::longValue))
                 .getSum();
-        return new TaskLogDto("\nВсего", totalMillis);
+        return new TaskLogDto("\nTotal", totalMillis);
     }
 
 }

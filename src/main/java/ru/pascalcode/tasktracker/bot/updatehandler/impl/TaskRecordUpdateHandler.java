@@ -23,7 +23,7 @@ import static ru.pascalcode.tasktracker.bot.Buttons.YESTERDAY_REPORT_BTN;
 @Component
 public class TaskRecordUpdateHandler extends AbstractUpdateHandler {
 
-    private static final String TASK_IN_WORK = "Задача \"%s\" взята в работу";
+    private static final String TASK_IN_PROGRESS = "The task \"%s\" is in progress";
 
     public TaskRecordUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
         super(userService, taskService, taskLogService);
@@ -33,10 +33,9 @@ public class TaskRecordUpdateHandler extends AbstractUpdateHandler {
     @Transactional
     protected void handle(Update update, SendMessage answer, User user) {
         String taskName = update.getMessage().getText();
-        //TODO записывать в бд не текущее время, а полученное от пользователя из сообщения
         Task task = taskService.getTask(taskName, user);
-        TaskLog taskLog = taskLogService.addTaskLogRecord(task);
-        answer.setText(String.format(TASK_IN_WORK, task.getName()));
+        taskLogService.addTaskLogRecord(task);
+        answer.setText(String.format(TASK_IN_PROGRESS, task.getName()));
         answer.setReplyMarkup(getReplyKeyboardMarkup(user));
     }
 

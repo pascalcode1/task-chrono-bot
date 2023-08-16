@@ -21,8 +21,8 @@ public class ChooseMinWeekHoursUpdateHandler extends AbstractSettingsUpdateHandl
 
     @Override
     protected void handle(Update update, SendMessage answer, User user) {
-        answer.setText("Выберите сколько часов в неделю хотите работать.\n" +
-                "Текущий норматив : " + user.getMinWeekHours() + " в неделю");
+        answer.setText("Choose how many hours you want to work per week.\n" +
+                "Current setting: " + user.getMinWeekHours());
     }
 
     @Override

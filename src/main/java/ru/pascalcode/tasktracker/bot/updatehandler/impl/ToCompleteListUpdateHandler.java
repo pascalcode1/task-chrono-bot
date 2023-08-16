@@ -25,9 +25,10 @@ public class ToCompleteListUpdateHandler extends AbstractUpdateHandler {
 
     @Override
     protected void handle(Update update, SendMessage answer, User user) {
-        answer.setText("Выбери задачи, которые необходимо завершить.\n" +
-                "Выбранные задачи больше не будут отображаться среди кнопок.\n" +
-                "Отчеты по этим задачам по-прежнему будут доступны.");
+        answer.setText("""
+                Choose the task you want to complete.
+                Selected tasks will no longer appear in the button bar.
+                Reports for these tasks will continue to be available.""");
     }
 
     protected ReplyKeyboardMarkup getReplyKeyboardMarkup(User user) {

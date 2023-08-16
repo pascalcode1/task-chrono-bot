@@ -29,7 +29,7 @@ public class CompleteUpdateHandler extends AbstractUpdateHandler {
         String taskName = update.getMessage().getText().replaceFirst(PrefixEmoji.COMPLETE,"");
         Task task = taskService.getTask(taskName, user);
         taskService.archiveTask(task);
-        answer.setText("Задача \"" + taskName + "\" завершена");
+        answer.setText("The task \"" + taskName + "\" completed");
     }
 
     protected ReplyKeyboardMarkup getReplyKeyboardMarkup(User user) {

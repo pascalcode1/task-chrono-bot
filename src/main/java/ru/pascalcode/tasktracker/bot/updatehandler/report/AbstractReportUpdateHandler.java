@@ -16,7 +16,7 @@ import java.util.*;
 
 public abstract class AbstractReportUpdateHandler extends AbstractUpdateHandler {
 
-    private static final String WEEK_PROGRESS = "%s из %sч. за неделю (%s%%)";
+    private static final String WEEK_PROGRESS = "%s hours out of %s this week (%s%%)";
 
     protected AbstractReportUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
         super(userService, taskService, taskLogService);
@@ -26,7 +26,7 @@ public abstract class AbstractReportUpdateHandler extends AbstractUpdateHandler 
         List<TaskLog> taskLogList = taskLogService.getReport(user, reportDay);
         List<TaskLogDto> taskLogDtoList = ReportUtils.toDtoList(taskLogList);
         StringJoiner stringJoiner = new StringJoiner("\n");
-        stringJoiner.add("Отчет за " + reportDay.format(DateTimeFormatter.ofPattern("d MMMM yyyy")) + "\n");
+        stringJoiner.add(reportDay.format(DateTimeFormatter.ofPattern("d MMMM yyyy")) + " report\n");
         for (TaskLogDto taskLogDto : taskLogDtoList) {
             stringJoiner.add(taskLogDto.toString());
         }

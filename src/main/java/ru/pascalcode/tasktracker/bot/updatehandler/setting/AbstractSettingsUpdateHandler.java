@@ -19,11 +19,11 @@ import static ru.pascalcode.tasktracker.bot.Buttons.MIN_WEEK_HOURS_BTN;
 
 public abstract class AbstractSettingsUpdateHandler extends AbstractUpdateHandler {
 
-    private static final String CURRENT_SETTINGS = "Текущие настройки бота";
-    private static final String WEEK_PROGRESS_ON = "✅ прогресс за неделю включен в отчет";
-    private static final String WEEK_PROGRESS_OFF = "❌ прогресс за неделю не включен в отчет";
-    private static final String FIRST_DAY_OF_WEEK = "\uD83D\uDCC6 Первый день недели: %s";
-    private static final String WIN_WEEK_HOURS = "\uD83D\uDD54 Норматив часов в неделю: %s";
+    private static final String CURRENT_SETTINGS = "Current settings of the bot";
+    private static final String WEEK_PROGRESS_ON = "✅ Weekly progress included to report";
+    private static final String WEEK_PROGRESS_OFF = "❌ Weekly progress excluded from report";
+    private static final String FIRST_DAY_OF_WEEK = "📆 First day of week: %s";
+    private static final String WIN_WEEK_HOURS = "🕔 Standard hours per week: %s";
 
     protected AbstractSettingsUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
         super(userService, taskService, taskLogService);

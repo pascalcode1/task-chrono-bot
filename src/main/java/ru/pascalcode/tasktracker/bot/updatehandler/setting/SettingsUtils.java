@@ -8,13 +8,13 @@ public class SettingsUtils {
     private static final Map<Integer, String> weekMap = new HashMap<>();
 
     static {
-        weekMap.put(1, "Понедельник");
-        weekMap.put(2, "Вторник");
-        weekMap.put(3, "Среда");
-        weekMap.put(4, "Четверг");
-        weekMap.put(5, "Пятница");
-        weekMap.put(6, "Суббота");
-        weekMap.put(7, "Воскресенье");
+        weekMap.put(1, "Monday");
+        weekMap.put(2, "Tuesday");
+        weekMap.put(3, "Wednesday");
+        weekMap.put(4, "Thursday");
+        weekMap.put(5, "Friday");
+        weekMap.put(6, "Saturday");
+        weekMap.put(7, "Sunday");
     }
 
     public static String getNameOfDay(int dayNumber) {

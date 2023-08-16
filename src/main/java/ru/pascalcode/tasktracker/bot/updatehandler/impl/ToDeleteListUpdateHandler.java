@@ -25,8 +25,9 @@ public class ToDeleteListUpdateHandler extends AbstractUpdateHandler {
 
     @Override
     protected void handle(Update update, SendMessage answer, User user) {
-        answer.setText("Выбери задачи, которые хотите удалить.\n" +
-                "ВНИМАНИЕ! Выбранные задачи будут удалены навсегда и не будут фигурировать в отчетах.");
+        answer.setText("""
+                Select the task you want to delete.
+                ATTENTION! Selected tasks will no longer appear in reports.""");
     }
 
     protected ReplyKeyboardMarkup getReplyKeyboardMarkup(User user) {

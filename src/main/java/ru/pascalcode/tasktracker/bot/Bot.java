@@ -30,9 +30,9 @@ public final class Bot extends TelegramLongPollingBot implements InitializingBea
     private void setCommands() throws TelegramApiException {
         SetMyCommands commands = SetMyCommands
                 .builder()
-                .command(new BotCommand(SETTINGS, "Настройки"))
-                .command(new BotCommand(COMPLETE, "Завершить задачи"))
-//                .command(new BotCommand(DELETE, "Удалить задачи"))
+                .command(new BotCommand(DELETE, "Delete tasks"))
+                .command(new BotCommand(SETTINGS, "Settings"))
+                .command(new BotCommand(COMPLETE, "Complete tasks"))
                 .build();
         this.execute(commands);
     }

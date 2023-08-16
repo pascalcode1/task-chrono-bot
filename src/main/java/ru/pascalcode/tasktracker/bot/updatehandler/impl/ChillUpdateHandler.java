@@ -24,7 +24,7 @@ import static ru.pascalcode.tasktracker.bot.Buttons.YESTERDAY_REPORT_BTN;
 @Component
 public class ChillUpdateHandler extends AbstractUpdateHandler {
 
-    private static final String BREAK = "Таймер остановлен\n %s  сегодня";
+    private static final String BREAK = "The timer is on pause\n %s  spent today";
 
     protected ChillUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
         super(userService, taskService, taskLogService);
@@ -33,7 +33,6 @@ public class ChillUpdateHandler extends AbstractUpdateHandler {
     @Override
     protected void handle(Update update, SendMessage answer, User user) {
         TaskLog taskLog = taskLogService.getUncompletedTask(user);
-        //TODO записывать в бд не текущее время, а полученное от пользователя из сообщения
         taskLog.setStop(LocalDateTime.now());
         taskLogService.saveTaskLog(taskLog);
         List<TaskLog> taskLogList = taskLogService.findAllByTaskToday(taskLog.getTask());

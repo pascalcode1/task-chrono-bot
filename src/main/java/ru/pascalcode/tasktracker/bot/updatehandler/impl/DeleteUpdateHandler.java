@@ -29,7 +29,7 @@ public class DeleteUpdateHandler extends AbstractUpdateHandler {
         String taskName = update.getMessage().getText().replaceFirst(DELETE,"");
         Task task = taskService.getTask(taskName, user);
         taskLogService.deleteTask(task);
-        answer.setText("Задача \"" + taskName + "\" удалена");
+        answer.setText("The task \"" + taskName + "\" deleted");
     }
 
     protected ReplyKeyboardMarkup getReplyKeyboardMarkup(User user) {
