@@ -2,8 +2,9 @@ package ru.pascalcode.tasktracker.bot.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import ru.pascalcode.tasktracker.bot.updatehandler.report.ReportUtils;
 
-import java.sql.Time;
+import java.text.DecimalFormat;
 
 @Data
 @AllArgsConstructor
@@ -11,12 +12,18 @@ public class TaskLogDto {
 
     private String name;
 
-    private Time time;
-
-    private Double decimalTime;
+    private Long millis;
 
     @Override
     public String toString() {
-        return name + ":   " + time + "   (" + decimalTime + ")";
+        return name + ":   " + getTime() + "   (" + getDecimal() + ")";
+    }
+
+    private String getTime() {
+        return ReportUtils.getTimeFromMillis(millis);
+    }
+
+    private Double getDecimal() {
+        return Double.parseDouble(new DecimalFormat("#0.00").format((double) millis / 3_600_000));
     }
 }

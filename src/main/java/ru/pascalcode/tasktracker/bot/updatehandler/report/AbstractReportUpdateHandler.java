@@ -48,14 +48,9 @@ public abstract class AbstractReportUpdateHandler extends AbstractUpdateHandler 
         LocalDateTime stop = reportDay.with(LocalTime.MAX);
         List<TaskLog> taskLogList = taskLogService.getReport(user, start, stop);
         long totalMillis = ReportUtils.getTotalMillis(taskLogList);
-        int hour = (int) (totalMillis / 3600000) % 60;
-        int min = (int) (totalMillis / 60000) % 60;
-        String totalTime = hour + ":" + getSecOrMin(min);
         int percent = (int) totalMillis / (plannedHours * 36000);
-        return String.format(WEEK_PROGRESS, totalTime, plannedHours, percent);
+        String timeFromMillis = ReportUtils.getTimeFromMillis(totalMillis);
+        return String.format(WEEK_PROGRESS, timeFromMillis, plannedHours, percent);
     }
 
-    private String getSecOrMin(int i) {
-        return String.valueOf(i).length() == 1 ? "0" + i : String.valueOf(i);
-    }
 }

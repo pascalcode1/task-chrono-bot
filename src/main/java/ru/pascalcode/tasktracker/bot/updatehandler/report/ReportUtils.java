@@ -3,8 +3,6 @@ package ru.pascalcode.tasktracker.bot.updatehandler.report;
 import ru.pascalcode.tasktracker.bot.dto.TaskLogDto;
 import ru.pascalcode.tasktracker.model.TaskLog;
 
-import java.sql.Time;
-import java.text.DecimalFormat;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,9 +21,13 @@ public class ReportUtils {
     public static TaskLogDto getTimeForTaskByTaskLog(String taskName, List<TaskLog> taskLogList) {
         validateTaskLogList(taskName, taskLogList);
         long summaryMillis = getTotalMillis(taskLogList);
-        double timeDecimal = Double.parseDouble(new DecimalFormat("#0.00").format((double) summaryMillis / 3_600_000));
-        //TODO не понимаю почему Time прибавляет мне 6 часов, позже разберусь.
-        return new TaskLogDto(taskName, new Time(summaryMillis - 21_600_000), timeDecimal);
+        return new TaskLogDto(taskName, summaryMillis);
+    }
+
+    public static String getTimeFromMillis(long millis) {
+        int hour = (int) (millis / 3600000) % 60;
+        int min = (int) (millis / 60000) % 60;
+        return hour + ":" + (String.valueOf(min).length() == 1 ? "0" + min : String.valueOf(min));
     }
 
     public static long getTotalMillis(List<TaskLog> taskLogList) {
@@ -49,11 +51,10 @@ public class ReportUtils {
 
     public static TaskLogDto getTotal(List<TaskLogDto> taskLogDtoList) {
         long totalMillis = taskLogDtoList.stream()
-                .map(taskLogDto -> taskLogDto.getTime().getTime() + 21_600_000)
+                .map(TaskLogDto::getMillis)
                 .collect(Collectors.summarizingLong(Long::longValue))
                 .getSum();
-        double timeDecimal = Double.parseDouble(new DecimalFormat("#0.00").format((double) totalMillis / 3_600_000));
-        return new TaskLogDto("\nВсего", new Time(totalMillis - 21_600_000), timeDecimal);
+        return new TaskLogDto("\nВсего", totalMillis);
     }
 
 }
