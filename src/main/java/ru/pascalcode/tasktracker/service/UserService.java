@@ -2,6 +2,8 @@ package ru.pascalcode.tasktracker.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.pascalcode.tasktracker.model.State;
 import ru.pascalcode.tasktracker.model.User;
 import ru.pascalcode.tasktracker.repository.UserRepository;
 
@@ -17,5 +19,9 @@ public class UserService {
 
     public User saveUser(User user) {
         return userRepository.save(user);
+    }
+
+    public State getStateOfUser(Update update) {
+        return getUser(update.getMessage().getFrom().getId()).getState();
     }
 }

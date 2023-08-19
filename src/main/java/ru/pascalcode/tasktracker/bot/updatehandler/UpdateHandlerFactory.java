@@ -8,6 +8,7 @@ import ru.pascalcode.tasktracker.bot.updatehandler.impl.*;
 import ru.pascalcode.tasktracker.bot.updatehandler.report.TodayReportUpdateHandler;
 import ru.pascalcode.tasktracker.bot.updatehandler.report.YesterdayReportUpdateHandler;
 import ru.pascalcode.tasktracker.bot.updatehandler.setting.*;
+import ru.pascalcode.tasktracker.service.UserService;
 
 import static ru.pascalcode.tasktracker.bot.Buttons.*;
 import static ru.pascalcode.tasktracker.bot.Commands.*;
@@ -15,10 +16,13 @@ import static ru.pascalcode.tasktracker.bot.Commands.*;
 @Component
 public class UpdateHandlerFactory {
 
+    private final UserService userService;
+
     private final ApplicationContext applicationContext;
 
-    public UpdateHandlerFactory(ApplicationContext applicationContext) {
+    public UpdateHandlerFactory(ApplicationContext applicationContext, UserService userService) {
         this.applicationContext = applicationContext;
+        this.userService = userService;
     }
 
     public UpdateHandler getUpdateHandler(Update update) {
@@ -46,6 +50,10 @@ public class UpdateHandlerFactory {
                 return (EnableWeekProgressUpdateHandler) applicationContext.getBean("enableWeekProgressUpdateHandler");
             case WEEK_HOURS_STATE_OFF_BTN:
                 return (DisableWeekProgressUpdateHandler) applicationContext.getBean("disableWeekProgressUpdateHandler");
+            case ADD_NEW_TASKS_TO_BAR_ON_BTN:
+                return (EnableAddNewTaskToBarUpdateHandler) applicationContext.getBean("enableAddNewTaskToBarUpdateHandler");
+            case ADD_NEW_TASKS_TO_BAR_OFF_BTN:
+                return (DisableAddNewTaskToBarUpdateHandler) applicationContext.getBean("disableAddNewTaskToBarUpdateHandler");
             case FIRST_DAY_OF_WEEK_BTN:
                 return (ChooseFirstDayOfWeekUpdateHandler) applicationContext.getBean("chooseFirstDayOfWeekUpdateHandler");
             case MIN_WEEK_HOURS_BTN:

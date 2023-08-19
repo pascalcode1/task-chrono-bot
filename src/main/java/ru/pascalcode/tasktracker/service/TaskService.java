@@ -23,25 +23,29 @@ public class TaskService {
     public Task getTask(String name, User user) {
         Task task = taskRepository.findByUserAndName(user, name);
         if (task == null) {
-            return taskRepository.save(new Task(name, user));
+            return taskRepository.save(new Task(user, name));
         }
-        if (Boolean.TRUE.equals(task.getArchived())) {
-            task.setArchived(false);
+        if (Boolean.TRUE.equals(user.getAddNewTasksToButtonBar()) && Boolean.FALSE.equals(task.getShowOnButtonBar())) {
+            task.setShowOnButtonBar(true);
             taskRepository.save(task);
         }
         return task;
     }
 
-    public List<Task> getActiveTasks(User user) {
-        return taskRepository.findAllByUserAndArchivedOrderByIdAsc(user, false);
+    public List<Task> getStaticTasksToShowOnButtonBar(User user) {
+        return taskRepository.findAllByUserAndShowOnButtonBarAndStaticTaskOrderByIdAsc(user, true, true);
+    }
+
+    public List<Task> getTasksToShowOnButtonBar(User user) {
+        return taskRepository.findAllByUserAndShowOnButtonBarAndStaticTaskOrderByIdAsc(user, true, false);
     }
 
     public List<Task> getAllTask(User user) {
         return taskRepository.findAllByUser(user);
     }
 
-    public Task archiveTask(Task task) {
-        task.setArchived(true);
+    public Task hideTask(Task task) {
+        task.setShowOnButtonBar(false);
         return taskRepository.save(task);
     }
 }

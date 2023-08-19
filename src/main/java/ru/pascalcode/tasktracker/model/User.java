@@ -35,6 +35,10 @@ public class User {
 
     private Boolean weekHoursStat;
 
+    private Boolean addNewTasksToButtonBar;
+
+    private State state;
+
     public User(Long telegramId) {
         this.telegramId = telegramId;
         setDefaults();
@@ -53,5 +57,7 @@ public class User {
         this.firstDayOfWeek = 1;
         this.weekHoursStat = false;
         this.moneyStat = false;
+        this.addNewTasksToButtonBar = false;
+        this.state = State.HOME;
     }
 }

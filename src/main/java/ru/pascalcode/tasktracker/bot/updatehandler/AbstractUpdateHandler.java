@@ -1,5 +1,6 @@
 package ru.pascalcode.tasktracker.bot.updatehandler;
 
+import org.apache.commons.lang3.StringUtils;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -19,8 +20,6 @@ import java.util.List;
 import static ru.pascalcode.tasktracker.bot.Buttons.*;
 
 public abstract class AbstractUpdateHandler implements UpdateHandler {
-
-    private static final int TASK_ROW_LIMIT = 3;
 
     protected final UserService userService;
 
@@ -50,7 +49,7 @@ public abstract class AbstractUpdateHandler implements UpdateHandler {
 
     protected ReplyKeyboardMarkup getReplyKeyboardMarkup(User user) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        List<KeyboardRow> keyboard = getActiveTaskKeyboardRowList(user);
+        List<KeyboardRow> keyboard = getTaskToShowKeyboardRowList(user);
         if (keyboard.isEmpty()) {
             List<Task> allTaskForUser = taskService.getAllTask(user);
             if (allTaskForUser.isEmpty()) {
@@ -82,29 +81,33 @@ public abstract class AbstractUpdateHandler implements UpdateHandler {
         return userService.saveUser(user);
     }
 
-    protected List<KeyboardRow> getActiveTaskKeyboardRowList(User user) {
-        return getActiveTaskKeyboardRowList(user, "");
+    protected List<KeyboardRow> getTaskToShowKeyboardRowList(User user) {
+        return getTaskToShowKeyboardRowList(user, "");
     }
 
-    protected List<KeyboardRow> getActiveTaskKeyboardRowList(User user, String prefix) {
-        List<Task> taskList = taskService.getActiveTasks(user);
-        List<KeyboardRow> keyboard = new ArrayList<>();
-        KeyboardRow row = new KeyboardRow();
-        for (int i = 0; i < taskList.size(); i++) {
-            Task task = taskList.get(i);
+    protected List<KeyboardRow> getTaskToShowKeyboardRowList(User user, String prefix) {
+        List<Task> taskList = taskService.getTasksToShowOnButtonBar(user);
+        List<Task> staticTaskList = new ArrayList<>();
+        if (StringUtils.isEmpty(prefix)) {
+            staticTaskList = taskService.getStaticTasksToShowOnButtonBar(user);
+        }
+        List<KeyboardRow> keyboardRows = getKeyboardRows(taskList, prefix);
+        keyboardRows.addAll(getKeyboardRows(staticTaskList, prefix));
+        return keyboardRows;
+    }
+
+    private List<KeyboardRow> getKeyboardRows(List<Task> tasks, String prefix) {
+        List<KeyboardRow> keyboardRows = new ArrayList<>();
+        KeyboardRow keyboardRow = new KeyboardRow();
+        for (int i = 0; i < tasks.size(); i++) {
+            Task task = tasks.get(i);
             String button = prefix + task.getName();
-            if (row.isEmpty()) {
-                row.add(button);
-                if (i == taskList.size() - 1 || taskList.size() <= TASK_ROW_LIMIT) {
-                    keyboard.add(row);
-                    row = new KeyboardRow();
-                }
-            } else if (taskList.size() > TASK_ROW_LIMIT) {
-                row.add(button);
-                keyboard.add(row);
-                row = new KeyboardRow();
+            keyboardRow.add(button);
+            if (keyboardRow.size() > 1 || i == tasks.size() - 1) {
+                keyboardRows.add(keyboardRow);
+                keyboardRow = new KeyboardRow();
             }
         }
-        return keyboard;
+        return keyboardRows;
     }
 }

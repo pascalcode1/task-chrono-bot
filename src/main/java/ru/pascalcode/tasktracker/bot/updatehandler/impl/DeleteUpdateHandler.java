@@ -32,9 +32,10 @@ public class DeleteUpdateHandler extends AbstractUpdateHandler {
         answer.setText("The task \"" + taskName + "\" deleted");
     }
 
+    @Override
     protected ReplyKeyboardMarkup getReplyKeyboardMarkup(User user) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        List<KeyboardRow> keyboard = getActiveTaskKeyboardRowList(user, DELETE);
+        List<KeyboardRow> keyboard = getTaskToShowKeyboardRowList(user, DELETE);
         keyboard.add(new KeyboardRow(List.of(new KeyboardButton(BACK_BTN))));
         replyKeyboardMarkup.setKeyboard(keyboard);
         replyKeyboardMarkup.setResizeKeyboard(false);

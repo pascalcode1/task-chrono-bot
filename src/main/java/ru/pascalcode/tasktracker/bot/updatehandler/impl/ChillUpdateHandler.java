@@ -38,12 +38,12 @@ public class ChillUpdateHandler extends AbstractUpdateHandler {
         List<TaskLog> taskLogList = taskLogService.findAllByTaskToday(taskLog.getTask());
         TaskLogDto taskLogDto = ReportUtils.getTimeForTaskByTaskLog(taskLog.getTask().getName(), taskLogList);
         answer.setText(String.format(BREAK, taskLogDto));
-        answer.setReplyMarkup(getReplyKeyboardMarkup(user));
     }
 
+    @Override
     protected ReplyKeyboardMarkup getReplyKeyboardMarkup(User user) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        List<KeyboardRow> keyboard = getActiveTaskKeyboardRowList(user);
+        List<KeyboardRow> keyboard = getTaskToShowKeyboardRowList(user);
         keyboard.add(new KeyboardRow(List.of(new KeyboardButton(TODAY_REPORT_BTN), new KeyboardButton(YESTERDAY_REPORT_BTN))));
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;

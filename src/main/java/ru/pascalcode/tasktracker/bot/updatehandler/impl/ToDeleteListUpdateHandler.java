@@ -30,9 +30,10 @@ public class ToDeleteListUpdateHandler extends AbstractUpdateHandler {
                 ATTENTION! Selected tasks will no longer appear in reports.""");
     }
 
+    @Override
     protected ReplyKeyboardMarkup getReplyKeyboardMarkup(User user) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        List<KeyboardRow> keyboard = getActiveTaskKeyboardRowList(user, PrefixEmoji.DELETE);
+        List<KeyboardRow> keyboard = getTaskToShowKeyboardRowList(user, PrefixEmoji.DELETE);
         keyboard.add(new KeyboardRow(List.of(new KeyboardButton(BACK_BTN))));
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;

@@ -31,9 +31,10 @@ public class ToCompleteListUpdateHandler extends AbstractUpdateHandler {
                 Reports for these tasks will continue to be available.""");
     }
 
+    @Override
     protected ReplyKeyboardMarkup getReplyKeyboardMarkup(User user) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        List<KeyboardRow> keyboard = getActiveTaskKeyboardRowList(user, COMPLETE);
+        List<KeyboardRow> keyboard = getTaskToShowKeyboardRowList(user, COMPLETE);
         keyboard.add(new KeyboardRow(List.of(new KeyboardButton(BACK_BTN))));
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;

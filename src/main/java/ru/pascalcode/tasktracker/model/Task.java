@@ -21,12 +21,21 @@ public class Task {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    private Boolean archived;
+    private Boolean showOnButtonBar;
 
-    public Task(String name, User user) {
-        this.name = name;
+    private Boolean staticTask;
+
+    public Task(User user, String name) {
         this.user = user;
-        this.archived = false;
+        this.name = name;
+        this.showOnButtonBar = user.getAddNewTasksToButtonBar();
+        this.staticTask = false;
     }
 
+    public Task(User user, String name, Boolean showOnButtonBar, Boolean staticTask) {
+        this.user = user;
+        this.name = name;
+        this.showOnButtonBar = showOnButtonBar;
+        this.staticTask = staticTask;
+    }
 }

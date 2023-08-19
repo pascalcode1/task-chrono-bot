@@ -28,13 +28,14 @@ public class CompleteUpdateHandler extends AbstractUpdateHandler {
     protected void handle(Update update, SendMessage answer, User user) {
         String taskName = update.getMessage().getText().replaceFirst(PrefixEmoji.COMPLETE,"");
         Task task = taskService.getTask(taskName, user);
-        taskService.archiveTask(task);
+        taskService.hideTask(task);
         answer.setText("The task \"" + taskName + "\" completed");
     }
 
+    @Override
     protected ReplyKeyboardMarkup getReplyKeyboardMarkup(User user) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        List<KeyboardRow> keyboard = getActiveTaskKeyboardRowList(user, PrefixEmoji.COMPLETE);
+        List<KeyboardRow> keyboard = getTaskToShowKeyboardRowList(user, PrefixEmoji.COMPLETE);
         keyboard.add(new KeyboardRow(List.of(new KeyboardButton(BACK_BTN))));
         replyKeyboardMarkup.setKeyboard(keyboard);
         replyKeyboardMarkup.setResizeKeyboard(false);
