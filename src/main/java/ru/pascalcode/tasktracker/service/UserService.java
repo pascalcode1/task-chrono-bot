@@ -13,8 +13,14 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public User getUser(Long telegramId) {
-        return userRepository.findByTelegramId(telegramId);
+    public User getUser(org.telegram.telegrambots.meta.api.objects.User tgUser) {
+
+        User user = userRepository.findByTelegramId(tgUser.getId());
+        if (user != null) {
+            return user;
+        }
+        user = new User(tgUser.getId(), tgUser.getUserName(), tgUser.getFirstName(), tgUser.getLastName());
+        return saveUser(user);
     }
 
     public User saveUser(User user) {
@@ -22,6 +28,6 @@ public class UserService {
     }
 
     public State getStateOfUser(Update update) {
-        return getUser(update.getMessage().getFrom().getId()).getState();
+        return getUser(update.getMessage().getFrom()).getState();
     }
 }

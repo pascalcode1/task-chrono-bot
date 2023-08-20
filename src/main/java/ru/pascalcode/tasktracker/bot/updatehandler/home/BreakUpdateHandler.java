@@ -1,4 +1,4 @@
-package ru.pascalcode.tasktracker.bot.updatehandler.impl;
+package ru.pascalcode.tasktracker.bot.updatehandler.home;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -8,7 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import ru.pascalcode.tasktracker.bot.dto.TaskLogDto;
 import ru.pascalcode.tasktracker.bot.updatehandler.AbstractUpdateHandler;
-import ru.pascalcode.tasktracker.bot.updatehandler.report.ReportUtils;
+import ru.pascalcode.tasktracker.bot.updatehandler.home.report.ReportUtils;
 import ru.pascalcode.tasktracker.model.TaskLog;
 import ru.pascalcode.tasktracker.model.User;
 import ru.pascalcode.tasktracker.service.TaskLogService;
@@ -22,11 +22,11 @@ import static ru.pascalcode.tasktracker.bot.Buttons.TODAY_REPORT_BTN;
 import static ru.pascalcode.tasktracker.bot.Buttons.YESTERDAY_REPORT_BTN;
 
 @Component
-public class ChillUpdateHandler extends AbstractUpdateHandler {
+public class BreakUpdateHandler extends AbstractUpdateHandler {
 
-    private static final String BREAK = "The timer is on pause\n %s  spent today";
+    private static final String BREAK = "The timer is on pause\n %s";
 
-    protected ChillUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
+    protected BreakUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
         super(userService, taskService, taskLogService);
     }
 
@@ -36,7 +36,7 @@ public class ChillUpdateHandler extends AbstractUpdateHandler {
         taskLog.setStop(LocalDateTime.now());
         taskLogService.saveTaskLog(taskLog);
         List<TaskLog> taskLogList = taskLogService.findAllByTaskToday(taskLog.getTask());
-        TaskLogDto taskLogDto = ReportUtils.getTimeForTaskByTaskLog(taskLog.getTask().getName(), taskLogList);
+        TaskLogDto taskLogDto = ReportUtils.getTimeForTaskByTaskLog(taskLog.getTask(), taskLogList);
         answer.setText(String.format(BREAK, taskLogDto));
     }
 

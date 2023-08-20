@@ -1,6 +1,7 @@
-package ru.pascalcode.tasktracker.bot.updatehandler.report;
+package ru.pascalcode.tasktracker.bot.updatehandler.home.report;
 
 import ru.pascalcode.tasktracker.bot.dto.TaskLogDto;
+import ru.pascalcode.tasktracker.model.Task;
 import ru.pascalcode.tasktracker.model.TaskLog;
 
 import java.time.ZoneId;
@@ -11,17 +12,17 @@ public class ReportUtils {
 
     public static List<TaskLogDto> toDtoList(List<TaskLog> taskLogList) {
         return taskLogList.stream()
-                .collect(Collectors.groupingBy(tl -> tl.getTask().getName()))
+                .collect(Collectors.groupingBy(TaskLog::getTask))
                 .entrySet()
                 .stream()
                 .map(entry -> getTimeForTaskByTaskLog(entry.getKey(), entry.getValue()))
                 .toList();
     }
 
-    public static TaskLogDto getTimeForTaskByTaskLog(String taskName, List<TaskLog> taskLogList) {
-        validateTaskLogList(taskName, taskLogList);
+    public static TaskLogDto getTimeForTaskByTaskLog(Task task, List<TaskLog> taskLogList) {
+        validateTaskLogList(task.getName(), taskLogList);
         long summaryMillis = getTotalMillis(taskLogList);
-        return new TaskLogDto(taskName, summaryMillis);
+        return new TaskLogDto(task.getName(), summaryMillis, task.getId());
     }
 
     public static String getTimeFromMillis(long millis) {
@@ -54,7 +55,7 @@ public class ReportUtils {
                 .map(TaskLogDto::getMillis)
                 .collect(Collectors.summarizingLong(Long::longValue))
                 .getSum();
-        return new TaskLogDto("\nTotal", totalMillis);
+        return new TaskLogDto("\nTotal", totalMillis, 0L);
     }
 
 }

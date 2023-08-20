@@ -1,4 +1,4 @@
-package ru.pascalcode.tasktracker.bot.updatehandler.setting;
+package ru.pascalcode.tasktracker.bot.updatehandler.home.report;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -8,15 +8,18 @@ import ru.pascalcode.tasktracker.service.TaskLogService;
 import ru.pascalcode.tasktracker.service.TaskService;
 import ru.pascalcode.tasktracker.service.UserService;
 
+import java.time.LocalDateTime;
+
 @Component
-public class SettingsUpdateHandler extends AbstractSettingsUpdateHandler {
-    protected SettingsUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
+public class YesterdayReportUpdateHandler extends AbstractReportUpdateHandler {
+
+    public YesterdayReportUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
         super(userService, taskService, taskLogService);
     }
 
     @Override
     protected void handle(Update update, SendMessage answer, User user) {
-        setSettingsTextAnswer(answer, user);
+        LocalDateTime reportDay = LocalDateTime.now().minusDays(1);
+        setReportToAnswer(user, reportDay, answer);
     }
-
 }

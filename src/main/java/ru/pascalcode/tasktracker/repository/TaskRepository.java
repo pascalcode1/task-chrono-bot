@@ -15,4 +15,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findAllByUserAndShowOnButtonBarAndStaticTaskOrderByIdAsc(User user, boolean showOnButtonBar, boolean staticTask);
 
     List<Task> findAllByUser(User user);
+
+    Task findByUserAndId(User user, Long id);
 }

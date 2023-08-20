@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+import ru.pascalcode.tasktracker.bot.PrefixEmoji;
 import ru.pascalcode.tasktracker.model.Task;
 import ru.pascalcode.tasktracker.model.TaskLog;
 import ru.pascalcode.tasktracker.model.User;
@@ -72,17 +73,16 @@ public abstract class AbstractUpdateHandler implements UpdateHandler {
     }
 
     protected User getUser(Update update) {
-        org.telegram.telegrambots.meta.api.objects.User from = update.getMessage().getFrom();
-        User user = userService.getUser(from.getId());
-        if (user != null) {
-            return user;
-        }
-        user = new User(from.getId(), from.getUserName(), from.getFirstName(), from.getLastName());
-        return userService.saveUser(user);
+        return userService.getUser(update.getMessage().getFrom());
     }
 
     protected List<KeyboardRow> getTaskToShowKeyboardRowList(User user) {
         return getTaskToShowKeyboardRowList(user, "");
+    }
+
+    protected List<KeyboardRow> getStaticTasksKeyboardRowList(User user) {
+        List<Task> taskList = taskService.getStaticTasksToShowOnButtonBar(user);
+        return getKeyboardRows(taskList, PrefixEmoji.DELETE);
     }
 
     protected List<KeyboardRow> getTaskToShowKeyboardRowList(User user, String prefix) {

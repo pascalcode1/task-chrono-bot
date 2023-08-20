@@ -1,4 +1,4 @@
-package ru.pascalcode.tasktracker.bot.updatehandler.report;
+package ru.pascalcode.tasktracker.bot.updatehandler.home.report;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;

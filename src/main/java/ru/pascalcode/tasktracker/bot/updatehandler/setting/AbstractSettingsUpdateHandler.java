@@ -5,6 +5,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import ru.pascalcode.tasktracker.bot.updatehandler.AbstractUpdateHandler;
+import ru.pascalcode.tasktracker.model.State;
 import ru.pascalcode.tasktracker.model.User;
 import ru.pascalcode.tasktracker.service.TaskLogService;
 import ru.pascalcode.tasktracker.service.TaskService;
@@ -15,7 +16,6 @@ import java.util.List;
 import java.util.StringJoiner;
 
 import static ru.pascalcode.tasktracker.bot.Buttons.*;
-import static ru.pascalcode.tasktracker.bot.Buttons.MIN_WEEK_HOURS_BTN;
 
 public abstract class AbstractSettingsUpdateHandler extends AbstractUpdateHandler {
 
@@ -32,6 +32,8 @@ public abstract class AbstractSettingsUpdateHandler extends AbstractUpdateHandle
     }
 
     protected void setSettingsTextAnswer(SendMessage answer, User user) {
+        user.setState(State.SETTINGS);
+        userService.saveUser(user);
         StringJoiner stringJoiner = new StringJoiner("\n");
         stringJoiner.add(CURRENT_SETTINGS_MESSAGE);
         stringJoiner.add(Boolean.TRUE.equals(user.getWeekHoursStat()) ? WEEK_PROGRESS_ON_MESSAGE : WEEK_PROGRESS_OFF_MESSAGE);
@@ -57,8 +59,7 @@ public abstract class AbstractSettingsUpdateHandler extends AbstractUpdateHandle
         } else {
             keyboard.add(new KeyboardRow(List.of(new KeyboardButton(ADD_NEW_TASKS_TO_BAR_ON_BTN))));
         }
-        keyboard.add(new KeyboardRow(List.of(new KeyboardButton(FIRST_DAY_OF_WEEK_BTN))));
-        keyboard.add(new KeyboardRow(List.of(new KeyboardButton(MIN_WEEK_HOURS_BTN))));
+        keyboard.add(new KeyboardRow(List.of(new KeyboardButton(FIRST_DAY_OF_WEEK_BTN), new KeyboardButton(MIN_WEEK_HOURS_BTN))));
         keyboard.add(new KeyboardRow(List.of(new KeyboardButton(BACK_BTN))));
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;

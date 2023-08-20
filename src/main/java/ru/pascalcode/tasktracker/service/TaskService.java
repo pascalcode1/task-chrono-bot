@@ -21,12 +21,29 @@ public class TaskService {
 
     @Transactional
     public Task getTask(String name, User user) {
-        Task task = taskRepository.findByUserAndName(user, name);
+        Task task = getTaskIdReceived(user, name);
+        if (task == null) {
+            task = taskRepository.findByUserAndName(user, name);
+        }
         if (task == null) {
             return taskRepository.save(new Task(user, name));
         }
         if (Boolean.TRUE.equals(user.getAddNewTasksToButtonBar()) && Boolean.FALSE.equals(task.getShowOnButtonBar())) {
             task.setShowOnButtonBar(true);
+            taskRepository.save(task);
+        }
+        return task;
+    }
+
+    @Transactional
+    public Task getStaticTask(String name, User user) {
+        Task task = taskRepository.findByUserAndName(user, name);
+        if (task == null) {
+            return taskRepository.save(new Task(user, name, true, true));
+        }
+        if (Boolean.FALSE.equals(task.getShowOnButtonBar()) || Boolean.FALSE.equals(task.getStaticTask())) {
+            task.setShowOnButtonBar(true);
+            task.setStaticTask(true);
             taskRepository.save(task);
         }
         return task;
@@ -47,5 +64,16 @@ public class TaskService {
     public Task hideTask(Task task) {
         task.setShowOnButtonBar(false);
         return taskRepository.save(task);
+    }
+
+    public Task getTaskIdReceived(User user, String text) {
+        if (!text.startsWith("/")) {
+            return null;
+        }
+        String cropped = text.substring(1);
+        if (!cropped.matches("\\d+")) {
+            return null;
+        }
+        return taskRepository.findByUserAndId(user, Long.parseLong(cropped));
     }
 }

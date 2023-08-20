@@ -1,4 +1,4 @@
-package ru.pascalcode.tasktracker.bot.updatehandler.report;
+package ru.pascalcode.tasktracker.bot.updatehandler.home.report;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import ru.pascalcode.tasktracker.bot.dto.TaskLogDto;
@@ -12,7 +12,8 @@ import ru.pascalcode.tasktracker.service.UserService;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.List;
+import java.util.StringJoiner;
 
 public abstract class AbstractReportUpdateHandler extends AbstractUpdateHandler {
 

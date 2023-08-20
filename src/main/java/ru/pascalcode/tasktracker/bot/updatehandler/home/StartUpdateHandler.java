@@ -1,4 +1,4 @@
-package ru.pascalcode.tasktracker.bot.updatehandler.impl;
+package ru.pascalcode.tasktracker.bot.updatehandler.home;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -10,14 +10,18 @@ import ru.pascalcode.tasktracker.service.TaskService;
 import ru.pascalcode.tasktracker.service.UserService;
 
 @Component
-public class BackUpdateHandler extends AbstractUpdateHandler {
-    protected BackUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
+public class StartUpdateHandler extends AbstractUpdateHandler {
+    protected StartUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
         super(userService, taskService, taskLogService);
     }
 
     @Override
     protected void handle(Update update, SendMessage answer, User user) {
-        answer.setText("\uD83D\uDC4C");
+        answer.setText("""
+                Sup! I'm going to help you to keep track of time spent.
+                Just send me task numbers and let me know when you finish.
+                You can ask me a report for today or yesterday.
+                Stay productive!""");
     }
 
 }
