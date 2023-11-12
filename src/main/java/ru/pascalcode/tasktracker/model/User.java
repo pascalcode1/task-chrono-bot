@@ -39,6 +39,8 @@ public class User {
 
     private State state;
 
+    private String meta;
+
     public User(Long telegramId) {
         this.telegramId = telegramId;
         setDefaults();

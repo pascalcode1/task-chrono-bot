@@ -4,7 +4,7 @@ import java.util.List;
 
 public class CommandUtils {
 
-    static final List<String> commands = List.of("start", "delete", "settings", "statictasks");
+    static final List<String> commands = List.of("start", "delete", "settings", "statictasks", "edit");
 
     public static boolean isCommand(String text) {
         if (!text.startsWith("/")) {

@@ -23,7 +23,7 @@ public class HideStaticTaskUpdateHandler extends ToStaticTasksSettingsUpdateHand
     @Override
     protected void handle(Update update, SendMessage answer, User user) {
         String taskName = update.getMessage().getText().replaceFirst(PrefixEmoji.DELETE,"");
-        Task task = taskService.getTask(taskName, user);
+        Task task = taskService.getOrCreateTask(taskName, user);
         taskService.hideTask(task);
         answer.setText(String.format(TASK_REMOVED_FROM_STATIC_BAR, task.getName()));
     }

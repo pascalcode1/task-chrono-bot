@@ -19,25 +19,24 @@ import java.util.List;
 import static ru.pascalcode.tasktracker.bot.Buttons.BACK_BTN;
 
 @Component
-public class ToDeleteListUpdateHandler extends AbstractUpdateHandler {
-    protected ToDeleteListUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
+public class ToEditListUpdateHandler extends AbstractUpdateHandler {
+    protected ToEditListUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
         super(userService, taskService, taskLogService);
     }
 
     @Override
     protected void handle(Update update, SendMessage answer, User user) {
-        user.setState(State.DELETE);
+        user.setState(State.EDIT);
         userService.saveUser(user);
         answer.setText("""
-                Select the task you want to delete.
-                Last six tasks are shown.
-                ATTENTION! Selected tasks will no longer appear in reports.""");
+                Send the task you want to rename.
+                Last six tasks are shown. If you want to rename another task, just send it's name.""");
     }
 
     @Override
     protected ReplyKeyboardMarkup getReplyKeyboardMarkup(User user) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        List<KeyboardRow> keyboard = getLastTaskList(user, PrefixEmoji.DELETE);
+        List<KeyboardRow> keyboard = getLastTaskList(user, PrefixEmoji.EDIT);
         keyboard.add(new KeyboardRow(List.of(new KeyboardButton(BACK_BTN))));
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;

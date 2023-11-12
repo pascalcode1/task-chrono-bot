@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+import ru.pascalcode.tasktracker.bot.PrefixEmoji;
 import ru.pascalcode.tasktracker.bot.updatehandler.AbstractUpdateHandler;
 import ru.pascalcode.tasktracker.model.Task;
 import ru.pascalcode.tasktracker.model.User;
@@ -27,7 +28,7 @@ public class DeleteUpdateHandler extends AbstractUpdateHandler {
     @Override
     protected void handle(Update update, SendMessage answer, User user) {
         String taskName = update.getMessage().getText().replaceFirst(DELETE,"");
-        Task task = taskService.getTask(taskName, user);
+        Task task = taskService.getOrCreateTask(taskName, user);
         taskLogService.deleteTask(task);
         answer.setText("The task \"" + taskName + "\" deleted");
     }
@@ -35,10 +36,9 @@ public class DeleteUpdateHandler extends AbstractUpdateHandler {
     @Override
     protected ReplyKeyboardMarkup getReplyKeyboardMarkup(User user) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        List<KeyboardRow> keyboard = getTaskToDelete(user);
+        List<KeyboardRow> keyboard = getLastTaskList(user, PrefixEmoji.DELETE);
         keyboard.add(new KeyboardRow(List.of(new KeyboardButton(BACK_BTN))));
         replyKeyboardMarkup.setKeyboard(keyboard);
-        replyKeyboardMarkup.setResizeKeyboard(false);
         return replyKeyboardMarkup;
     }
 }

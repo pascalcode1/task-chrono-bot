@@ -6,6 +6,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.pascalcode.tasktracker.bot.PrefixEmoji;
 import ru.pascalcode.tasktracker.bot.CommandUtils;
 import ru.pascalcode.tasktracker.bot.updatehandler.delete.DeleteUpdateHandler;
+import ru.pascalcode.tasktracker.bot.updatehandler.edit.EditConfirmUpdateHandler;
+import ru.pascalcode.tasktracker.bot.updatehandler.edit.EditUpdateHandler;
 import ru.pascalcode.tasktracker.bot.updatehandler.home.*;
 import ru.pascalcode.tasktracker.bot.updatehandler.home.report.TodayReportUpdateHandler;
 import ru.pascalcode.tasktracker.bot.updatehandler.home.report.YesterdayReportUpdateHandler;
@@ -41,6 +43,8 @@ public class UpdateHandlerFactory {
             case SETTINGS -> getSettingsUpdateHandler(text);
             case DELETE -> getDeleteUpdateHandler(text);
             case STATIC_TASKS -> getStaticTasksUpdateHandler(text);
+            case EDIT -> getEditUpdateHandler(text);
+            case EDIT_CONFIRM -> getEditConfirmUpdateHandler(text);
         };
     }
 
@@ -51,6 +55,7 @@ public class UpdateHandlerFactory {
         return switch (text) {
             case START -> (StartUpdateHandler) applicationContext.getBean("startUpdateHandler");
             case DELETE -> (ToDeleteListUpdateHandler) applicationContext.getBean("toDeleteListUpdateHandler");
+            case EDIT -> (ToEditListUpdateHandler) applicationContext.getBean("toEditListUpdateHandler");
             case STATIC_TASKS -> (ToStaticTasksSettingsUpdateHandler) applicationContext.getBean("toStaticTasksSettingsUpdateHandler");
             case SETTINGS -> (SettingsUpdateHandler) applicationContext.getBean("settingsUpdateHandler");
             case BREAK_BTN -> (BreakUpdateHandler) applicationContext.getBean("breakUpdateHandler");
@@ -85,6 +90,20 @@ public class UpdateHandlerFactory {
         return switch (text) {
             case BACK_BTN -> (BackUpdateHandler) applicationContext.getBean("backUpdateHandler");
             default -> (ToDeleteListUpdateHandler) applicationContext.getBean("toDeleteListUpdateHandler");
+        };
+    }
+
+    private UpdateHandler getEditUpdateHandler(String text) {
+        return switch (text) {
+            case BACK_BTN -> (BackUpdateHandler) applicationContext.getBean("backUpdateHandler");
+            default -> (EditUpdateHandler) applicationContext.getBean("editUpdateHandler");
+        };
+    }
+
+    private UpdateHandler getEditConfirmUpdateHandler(String text) {
+        return switch (text) {
+            case BACK_BTN -> (BackUpdateHandler) applicationContext.getBean("backUpdateHandler");
+            default -> (EditConfirmUpdateHandler) applicationContext.getBean("editConfirmUpdateHandler");
         };
     }
 

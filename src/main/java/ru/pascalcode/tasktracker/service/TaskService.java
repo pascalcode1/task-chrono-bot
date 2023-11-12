@@ -22,7 +22,7 @@ public class TaskService {
     }
 
     @Transactional
-    public Task getTask(String name, User user) {
+    public Task getOrCreateTask(String name, User user) {
         Task task = getTaskIdReceived(user, name);
         if (task == null) {
             task = taskRepository.findByUserAndName(user, name);
@@ -35,6 +35,15 @@ public class TaskService {
             taskRepository.save(task);
         }
         return task;
+    }
+
+    @Transactional
+    public Task getTask(String name, User user) {
+        return taskRepository.findByUserAndName(user, name);
+    }
+
+    public Task getTaskById(Long taskId) {
+        return taskRepository.findById(taskId).get();
     }
 
     @Transactional
@@ -59,7 +68,7 @@ public class TaskService {
         return taskRepository.findAllByUserAndShowOnButtonBarAndStaticTaskOrderByIdAsc(user, true, false);
     }
 
-    public List<Task> getTasksToDelete(User user) {
+    public List<Task> getLastTasksList(User user) {
         return taskRepository.findByUser(user, PageRequest.of(0,6, Sort.by(Sort.Direction.DESC, "id")));
     }
 
@@ -81,5 +90,12 @@ public class TaskService {
             return null;
         }
         return taskRepository.findByUserAndId(user, Long.parseLong(cropped));
+    }
+
+    public void renameTask(User user, String newTaskName) {
+        taskRepository.findById(Long.valueOf(user.getMeta())).ifPresent(t -> {
+            t.setName(newTaskName);
+            taskRepository.save(t);
+        });
     }
 }

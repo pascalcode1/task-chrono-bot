@@ -13,6 +13,7 @@ create table users
     week_hours_stat             boolean     not null default false,
     add_new_tasks_to_button_bar boolean     not null default false,
     state                       integer     not null default 0,
+    meta                        varchar(128),
     constraint fk_state foreign key (state) references state (id)
 );
 
@@ -44,3 +45,5 @@ insert into state (id, name) values (0, 'Home');
 insert into state (id, name) values (1, 'Settings');
 insert into state (id, name) values (2, 'Delete');
 insert into state (id, name) values (3, 'Static tasks');
+insert into state (id, name) values (4, 'Edit');
+insert into state (id, name) values (5, 'Confirm editing');

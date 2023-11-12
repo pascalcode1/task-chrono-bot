@@ -31,7 +31,7 @@ public class TaskRecordUpdateHandler extends AbstractUpdateHandler {
     @Transactional
     protected void handle(Update update, SendMessage answer, User user) {
         String taskName = update.getMessage().getText();
-        Task task = taskService.getTask(taskName, user);
+        Task task = taskService.getOrCreateTask(taskName, user);
         taskLogService.addTaskLogRecord(task);
         answer.setText(String.format(TASK_IN_PROGRESS, task.getName(), task.getId()));
     }
