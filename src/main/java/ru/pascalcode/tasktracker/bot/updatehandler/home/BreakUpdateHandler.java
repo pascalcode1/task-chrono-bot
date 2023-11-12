@@ -26,6 +26,8 @@ public class BreakUpdateHandler extends AbstractUpdateHandler {
 
     private static final String BREAK = "The timer is on pause\n %s";
 
+    private static final String NO_TASK_TO_BRAKE = "There's no task to break 🤷";
+
     protected BreakUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
         super(userService, taskService, taskLogService);
     }
@@ -33,6 +35,10 @@ public class BreakUpdateHandler extends AbstractUpdateHandler {
     @Override
     protected void handle(Update update, SendMessage answer, User user) {
         TaskLog taskLog = taskLogService.getUncompletedTask(user);
+        if (taskLog == null) {
+            answer.setText(NO_TASK_TO_BRAKE);
+            return;
+        }
         taskLog.setStop(LocalDateTime.now());
         taskLogService.saveTaskLog(taskLog);
         List<TaskLog> taskLogList = taskLogService.findAllByTaskToday(taskLog.getTask());

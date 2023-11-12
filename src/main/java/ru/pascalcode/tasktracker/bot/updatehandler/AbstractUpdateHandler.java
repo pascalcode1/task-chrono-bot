@@ -41,7 +41,9 @@ public abstract class AbstractUpdateHandler implements UpdateHandler {
         Long chatId = msg.getChatId();
         SendMessage answer = new SendMessage();
         handle(update, answer, user);
-        answer.setReplyMarkup(getReplyKeyboardMarkup(user));
+        ReplyKeyboardMarkup replyKeyboardMarkup = getReplyKeyboardMarkup(user);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        answer.setReplyMarkup(replyKeyboardMarkup);
         answer.setChatId(chatId.toString());
         return answer;
     }
