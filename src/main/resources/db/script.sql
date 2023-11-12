@@ -42,6 +42,5 @@ create table state
 );
 insert into state (id, name) values (0, 'Home');
 insert into state (id, name) values (1, 'Settings');
-insert into state (id, name) values (2, 'Complete');
-insert into state (id, name) values (3, 'Delete');
-insert into state (id, name) values (4, 'Static tasks');
+insert into state (id, name) values (2, 'Delete');
+insert into state (id, name) values (3, 'Static tasks');

@@ -33,7 +33,6 @@ public final class Bot extends TelegramLongPollingBot implements InitializingBea
                 .command(new BotCommand(DELETE, "Delete tasks"))
                 .command(new BotCommand(STATIC_TASKS, "Static tasks settings"))
                 .command(new BotCommand(SETTINGS, "Settings"))
-                .command(new BotCommand(COMPLETE, "Complete tasks"))
                 .build();
         this.execute(commands);
     }
