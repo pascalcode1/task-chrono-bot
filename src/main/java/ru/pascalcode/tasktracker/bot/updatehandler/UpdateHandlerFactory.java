@@ -4,7 +4,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.pascalcode.tasktracker.bot.PrefixEmoji;
-import ru.pascalcode.tasktracker.bot.StringHelper;
+import ru.pascalcode.tasktracker.bot.CommandUtils;
 import ru.pascalcode.tasktracker.bot.updatehandler.delete.DeleteUpdateHandler;
 import ru.pascalcode.tasktracker.bot.updatehandler.home.*;
 import ru.pascalcode.tasktracker.bot.updatehandler.home.report.TodayReportUpdateHandler;
@@ -33,6 +33,9 @@ public class UpdateHandlerFactory {
     public UpdateHandler getUpdateHandler(Update update) {
         State state = userService.getStateOfUser(update);
         String text = update.getMessage().getText();
+        if (CommandUtils.isCommand(text)) {
+            state = State.HOME;
+        }
         return switch (state) {
             case HOME -> getHomeUpdateHandler(text);
             case SETTINGS -> getSettingsUpdateHandler(text);
@@ -42,7 +45,7 @@ public class UpdateHandlerFactory {
     }
 
     private UpdateHandler getHomeUpdateHandler(String text) {
-        if (text.startsWith("/") && !StringHelper.isCommand(text)){
+        if (text.startsWith("/") && !CommandUtils.isCommand(text)){
             return (TaskRecordUpdateHandler) applicationContext.getBean("taskRecordUpdateHandler");
         }
         return switch (text) {
@@ -71,7 +74,7 @@ public class UpdateHandlerFactory {
             case ADD_NEW_TASKS_TO_BAR_OFF_BTN -> (DisableAddNewTaskToBarUpdateHandler) applicationContext.getBean("disableAddNewTaskToBarUpdateHandler");
             case FIRST_DAY_OF_WEEK_BTN -> (ChooseFirstDayOfWeekUpdateHandler) applicationContext.getBean("chooseFirstDayOfWeekUpdateHandler");
             case MIN_WEEK_HOURS_BTN -> (ChooseMinWeekHoursUpdateHandler) applicationContext.getBean("chooseMinWeekHoursUpdateHandler");
-            default -> throw new RuntimeException();
+            default -> (SettingsUpdateHandler) applicationContext.getBean("settingsUpdateHandler");
         };
     }
 
@@ -81,7 +84,7 @@ public class UpdateHandlerFactory {
         }
         return switch (text) {
             case BACK_BTN -> (BackUpdateHandler) applicationContext.getBean("backUpdateHandler");
-            default -> throw new RuntimeException();
+            default -> (ToDeleteListUpdateHandler) applicationContext.getBean("toDeleteListUpdateHandler");
         };
     }
 

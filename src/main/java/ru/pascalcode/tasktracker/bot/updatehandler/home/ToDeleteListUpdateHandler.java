@@ -30,13 +30,14 @@ public class ToDeleteListUpdateHandler extends AbstractUpdateHandler {
         userService.saveUser(user);
         answer.setText("""
                 Select the task you want to delete.
+                Last six tasks are shown.
                 ATTENTION! Selected tasks will no longer appear in reports.""");
     }
 
     @Override
     protected ReplyKeyboardMarkup getReplyKeyboardMarkup(User user) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        List<KeyboardRow> keyboard = getTaskToShowKeyboardRowList(user, PrefixEmoji.DELETE);
+        List<KeyboardRow> keyboard = getTaskToDelete(user);
         keyboard.add(new KeyboardRow(List.of(new KeyboardButton(BACK_BTN))));
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;

@@ -25,7 +25,6 @@ public class StaticTaskRecordUpdateHandler extends ToStaticTasksSettingsUpdateHa
     protected void handle(Update update, SendMessage answer, User user) {
         String taskName = update.getMessage().getText();
         Task task = taskService.getStaticTask(taskName, user);
-        taskLogService.addTaskLogRecord(task);
         answer.setText(String.format(TASK_ADDED_TO_STATIC_BAR, task.getName(), task.getId()));
     }
 }

@@ -98,6 +98,11 @@ public abstract class AbstractUpdateHandler implements UpdateHandler {
         return keyboardRows;
     }
 
+    protected List<KeyboardRow> getTaskToDelete(User user) {
+        List<Task> taskToDelete = taskService.getTasksToDelete(user);
+        return getKeyboardRows(taskToDelete, PrefixEmoji.DELETE);
+    }
+
     private List<KeyboardRow> getKeyboardRows(List<Task> tasks, String prefix) {
         List<KeyboardRow> keyboardRows = new ArrayList<>();
         KeyboardRow keyboardRow = new KeyboardRow();

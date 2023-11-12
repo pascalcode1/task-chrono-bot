@@ -2,6 +2,8 @@ package ru.pascalcode.tasktracker.service;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.pascalcode.tasktracker.model.Task;
 import ru.pascalcode.tasktracker.model.User;
@@ -55,6 +57,10 @@ public class TaskService {
 
     public List<Task> getTasksToShowOnButtonBar(User user) {
         return taskRepository.findAllByUserAndShowOnButtonBarAndStaticTaskOrderByIdAsc(user, true, false);
+    }
+
+    public List<Task> getTasksToDelete(User user) {
+        return taskRepository.findByUser(user, PageRequest.of(0,6, Sort.by(Sort.Direction.DESC, "id")));
     }
 
     public List<Task> getAllTask(User user) {

@@ -35,7 +35,7 @@ public class DeleteUpdateHandler extends AbstractUpdateHandler {
     @Override
     protected ReplyKeyboardMarkup getReplyKeyboardMarkup(User user) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        List<KeyboardRow> keyboard = getTaskToShowKeyboardRowList(user, DELETE);
+        List<KeyboardRow> keyboard = getTaskToDelete(user);
         keyboard.add(new KeyboardRow(List.of(new KeyboardButton(BACK_BTN))));
         replyKeyboardMarkup.setKeyboard(keyboard);
         replyKeyboardMarkup.setResizeKeyboard(false);

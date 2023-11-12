@@ -2,9 +2,9 @@ package ru.pascalcode.tasktracker.bot;
 
 import java.util.List;
 
-public class StringHelper {
+public class CommandUtils {
 
-    static final List<String> commands = List.of("start", "about", "complete", "delete", "settings", "statictasks");
+    static final List<String> commands = List.of("start", "delete", "settings", "statictasks");
 
     public static boolean isCommand(String text) {
         if (!text.startsWith("/")) {
