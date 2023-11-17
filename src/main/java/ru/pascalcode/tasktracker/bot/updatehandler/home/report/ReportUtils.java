@@ -4,6 +4,7 @@ import ru.pascalcode.tasktracker.bot.dto.TaskLogDto;
 import ru.pascalcode.tasktracker.model.Task;
 import ru.pascalcode.tasktracker.model.TaskLog;
 
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +22,12 @@ public class ReportUtils {
 
     public static TaskLogDto getTimeForTaskByTaskLog(Task task, List<TaskLog> taskLogList) {
         validateTaskLogList(task.getName(), taskLogList);
+        taskLogList.forEach(tl -> {
+            if (tl.getStop() == null) {
+                tl.setStop(LocalDateTime.now());
+                task.setName("👨‍💻 "+ task.getName());
+            }
+        });
         long summaryMillis = getTotalMillis(taskLogList);
         return new TaskLogDto(task.getName(), summaryMillis, task.getId());
     }
@@ -46,7 +53,7 @@ public class ReportUtils {
                 .filter(taskLog -> !taskLog.getTask().getName().equals(taskName))
                 .toList().isEmpty();
         if (!isValid) {
-            throw new RuntimeException("\"taskLogList\" mast include only tasks with task name \"taskName\""); //TODO WATT??
+            throw new RuntimeException("\"taskLogList\" mast include only tasks with task name \"" + taskName + "\"");
         }
     }
 

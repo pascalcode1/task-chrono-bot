@@ -20,10 +20,10 @@ public interface TaskLogRepository extends JpaRepository<TaskLog, Long> {
             from task_log tl
             join task t on tl.task_id = t.id
             join users u on t.user_id = u.id
-            where tl.start >= :start
-            and tl.stop <= :stop
+            where tl.start >= :from
+            and tl.start <= :to
             and u.id = :userId""")
-    List<TaskLog> getReportByPeriod(Long userId, LocalDateTime start, LocalDateTime stop);
+    List<TaskLog> getReportByPeriod(Long userId, LocalDateTime from, LocalDateTime to);
 
     @Query(nativeQuery = true, value = """
             select tl.id,

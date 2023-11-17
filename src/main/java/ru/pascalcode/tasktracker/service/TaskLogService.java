@@ -49,7 +49,13 @@ public class TaskLogService {
     }
 
     public List<TaskLog> getReport(User user, LocalDateTime start, LocalDateTime stop) {
-        return taskLogRepository.getReportByPeriod(user.getId(), start, stop);
+        List<TaskLog> reportByPeriod = taskLogRepository.getReportByPeriod(user.getId(), start, stop);
+        reportByPeriod.forEach(tl -> {
+            if (tl.getStop() == null) {
+                tl.setStop(LocalDateTime.now());
+            }
+        });
+        return reportByPeriod;
     }
 
     public List<TaskLog> findAllByTaskToday(Task task) {
