@@ -14,6 +14,7 @@ import ru.pascalcode.tasktracker.service.TaskLogService;
 import ru.pascalcode.tasktracker.service.TaskService;
 import ru.pascalcode.tasktracker.service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static ru.pascalcode.tasktracker.bot.Buttons.BACK_BTN;
@@ -28,16 +29,21 @@ public class DeleteUpdateHandler extends AbstractUpdateHandler {
     @Override
     protected void handle(Update update, SendMessage answer, User user) {
         String taskName = update.getMessage().getText().replaceFirst(DELETE,"");
-        Task task = taskService.getOrCreateTask(taskName, user);
-        taskLogService.deleteTask(task);
-        answer.setText("The task \"" + taskName + "\" deleted");
+        Task task = taskService.getTask(taskName, user);
+        if (task == null) {
+            answer.setText("There is no task with name \"" + taskName + "\"");
+        } else {
+            taskLogService.deleteTask(task);
+            answer.setText("The task \"" + taskName + "\" deleted");
+        }
     }
 
     @Override
     protected ReplyKeyboardMarkup getReplyKeyboardMarkup(User user) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        List<KeyboardRow> keyboard = getLastTaskList(user, PrefixEmoji.DELETE);
+        List<KeyboardRow> keyboard = new ArrayList<>();
         keyboard.add(new KeyboardRow(List.of(new KeyboardButton(BACK_BTN))));
+        keyboard.addAll(getLastTaskList(user, PrefixEmoji.DELETE));
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;
     }

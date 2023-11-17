@@ -84,12 +84,9 @@ public class UpdateHandlerFactory {
     }
 
     private UpdateHandler getDeleteUpdateHandler(String text) {
-        if (text.startsWith(PrefixEmoji.DELETE)) {
-            return (DeleteUpdateHandler) applicationContext.getBean("deleteUpdateHandler");
-        }
         return switch (text) {
             case BACK_BTN -> (BackUpdateHandler) applicationContext.getBean("backUpdateHandler");
-            default -> (ToDeleteListUpdateHandler) applicationContext.getBean("toDeleteListUpdateHandler");
+            default -> (DeleteUpdateHandler) applicationContext.getBean("deleteUpdateHandler");
         };
     }
 

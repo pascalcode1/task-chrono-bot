@@ -69,7 +69,7 @@ public class TaskService {
     }
 
     public List<Task> getLastTasksList(User user) {
-        return taskRepository.findByUser(user, PageRequest.of(0,6, Sort.by(Sort.Direction.DESC, "id")));
+        return taskRepository.findByUser(user, PageRequest.of(0, 20, Sort.by(Sort.Direction.DESC, "id")));
     }
 
     public List<Task> getAllTask(User user) {

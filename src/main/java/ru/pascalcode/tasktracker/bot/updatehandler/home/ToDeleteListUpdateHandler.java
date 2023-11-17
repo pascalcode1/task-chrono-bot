@@ -14,6 +14,7 @@ import ru.pascalcode.tasktracker.service.TaskLogService;
 import ru.pascalcode.tasktracker.service.TaskService;
 import ru.pascalcode.tasktracker.service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static ru.pascalcode.tasktracker.bot.Buttons.BACK_BTN;
@@ -30,15 +31,16 @@ public class ToDeleteListUpdateHandler extends AbstractUpdateHandler {
         userService.saveUser(user);
         answer.setText("""
                 Select the task you want to delete.
-                Last six tasks are shown.
+                Last 20 tasks are shown. If you want to delete another task, just send it's name.
                 ATTENTION! Selected tasks will no longer appear in reports.""");
     }
 
     @Override
     protected ReplyKeyboardMarkup getReplyKeyboardMarkup(User user) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        List<KeyboardRow> keyboard = getLastTaskList(user, PrefixEmoji.DELETE);
+        List<KeyboardRow> keyboard = new ArrayList<>();
         keyboard.add(new KeyboardRow(List.of(new KeyboardButton(BACK_BTN))));
+        keyboard.addAll(getLastTaskList(user, PrefixEmoji.DELETE));
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;
     }

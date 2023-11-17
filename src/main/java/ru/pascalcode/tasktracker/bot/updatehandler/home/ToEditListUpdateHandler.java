@@ -14,6 +14,7 @@ import ru.pascalcode.tasktracker.service.TaskLogService;
 import ru.pascalcode.tasktracker.service.TaskService;
 import ru.pascalcode.tasktracker.service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static ru.pascalcode.tasktracker.bot.Buttons.BACK_BTN;
@@ -30,14 +31,15 @@ public class ToEditListUpdateHandler extends AbstractUpdateHandler {
         userService.saveUser(user);
         answer.setText("""
                 Send the task you want to rename.
-                Last six tasks are shown. If you want to rename another task, just send it's name.""");
+                Last 20 tasks are shown. If you want to rename another task, just send it's name.""");
     }
 
     @Override
     protected ReplyKeyboardMarkup getReplyKeyboardMarkup(User user) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        List<KeyboardRow> keyboard = getLastTaskList(user, PrefixEmoji.EDIT);
+        List<KeyboardRow> keyboard = new ArrayList<>();
         keyboard.add(new KeyboardRow(List.of(new KeyboardButton(BACK_BTN))));
+        keyboard.addAll(getLastTaskList(user, PrefixEmoji.EDIT));
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;
     }
