@@ -1,4 +1,4 @@
-package ru.pascalcode.tasktracker.bot.updatehandler.edit;
+package ru.pascalcode.tasktracker.bot.updatehandler.edittasks;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -18,11 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static ru.pascalcode.tasktracker.bot.Buttons.BACK_BTN;
-import static ru.pascalcode.tasktracker.bot.PrefixEmoji.EDIT;
+import static ru.pascalcode.tasktracker.bot.Emoji.EDIT;
 
 @Component
-public class EditUpdateHandler extends AbstractUpdateHandler {
-    protected EditUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
+public class EditTaskUpdateHandler extends AbstractUpdateHandler {
+    protected EditTaskUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
         super(userService, taskService, taskLogService);
     }
 

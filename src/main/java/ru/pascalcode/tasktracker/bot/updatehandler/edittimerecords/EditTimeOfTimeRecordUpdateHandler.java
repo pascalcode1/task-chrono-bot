@@ -1,4 +1,4 @@
-package ru.pascalcode.tasktracker.bot.updatehandler.delete;
+package ru.pascalcode.tasktracker.bot.updatehandler.edittimerecords;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -7,7 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import ru.pascalcode.tasktracker.bot.updatehandler.AbstractUpdateHandler;
-import ru.pascalcode.tasktracker.model.Task;
+import ru.pascalcode.tasktracker.model.State;
 import ru.pascalcode.tasktracker.model.User;
 import ru.pascalcode.tasktracker.service.TaskLogService;
 import ru.pascalcode.tasktracker.service.TaskService;
@@ -17,24 +17,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static ru.pascalcode.tasktracker.bot.Buttons.BACK_BTN;
-import static ru.pascalcode.tasktracker.bot.Emoji.DELETE;
 
 @Component
-public class DeleteUpdateHandler extends AbstractUpdateHandler {
-    protected DeleteUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
+public class EditTimeOfTimeRecordUpdateHandler extends AbstractUpdateHandler {
+    protected EditTimeOfTimeRecordUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
         super(userService, taskService, taskLogService);
     }
 
     @Override
     protected void handle(Update update, SendMessage answer, User user) {
-        String taskName = update.getMessage().getText().replaceFirst(DELETE,"");
-        Task task = taskService.getTask(taskName, user);
-        if (task == null) {
-            answer.setText("There is no task with name \"" + taskName + "\"");
-        } else {
-            taskLogService.deleteTask(task);
-            answer.setText("The task \"" + taskName + "\" deleted");
-        }
+        String text = update.getMessage().getText();
+        String timePoint = text.substring(1, text.indexOf(" "));
+        user.setState(State.EDIT_TIME_RECORD_CONFIRM);
+        user.setMeta(user.getMeta() + " " + timePoint);
+        userService.saveUser(user);
+        answer.setText("Submit new " + timePoint + " time for record in format dd-MM-yyyy HH:mm");
     }
 
     @Override
@@ -42,7 +39,6 @@ public class DeleteUpdateHandler extends AbstractUpdateHandler {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         List<KeyboardRow> keyboard = new ArrayList<>();
         keyboard.add(new KeyboardRow(List.of(new KeyboardButton(BACK_BTN))));
-        keyboard.addAll(getLastTaskList(user, DELETE));
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;
     }

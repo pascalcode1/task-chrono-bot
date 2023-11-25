@@ -38,7 +38,10 @@ create table state
 );
 insert into state (id, name) values (0, 'Home');
 insert into state (id, name) values (1, 'Settings');
-insert into state (id, name) values (2, 'Delete');
+insert into state (id, name) values (2, 'Delete tasks');
 insert into state (id, name) values (3, 'Static tasks');
-insert into state (id, name) values (4, 'Edit');
+insert into state (id, name) values (4, 'Edit tasks');
 insert into state (id, name) values (5, 'Confirm editing');
+insert into state (id, name) values (6, 'Edit time records list');
+insert into state (id, name) values (7, 'Edit time record');
+insert into state (id, name) values (8, 'Confirm time editing of time record');

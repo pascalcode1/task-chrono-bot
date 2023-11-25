@@ -6,7 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
-import ru.pascalcode.tasktracker.bot.PrefixEmoji;
+import ru.pascalcode.tasktracker.bot.Emoji;
 import ru.pascalcode.tasktracker.bot.updatehandler.AbstractUpdateHandler;
 import ru.pascalcode.tasktracker.model.State;
 import ru.pascalcode.tasktracker.model.User;
@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static ru.pascalcode.tasktracker.bot.Buttons.BACK_BTN;
+import static ru.pascalcode.tasktracker.bot.Emoji.EDIT;
 
 @Component
 public class ToEditListUpdateHandler extends AbstractUpdateHandler {
@@ -27,7 +28,7 @@ public class ToEditListUpdateHandler extends AbstractUpdateHandler {
 
     @Override
     protected void handle(Update update, SendMessage answer, User user) {
-        user.setState(State.EDIT);
+        user.setState(State.EDIT_TASKS);
         userService.saveUser(user);
         answer.setText("""
                 Send the task you want to rename.
@@ -39,7 +40,7 @@ public class ToEditListUpdateHandler extends AbstractUpdateHandler {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         List<KeyboardRow> keyboard = new ArrayList<>();
         keyboard.add(new KeyboardRow(List.of(new KeyboardButton(BACK_BTN))));
-        keyboard.addAll(getLastTaskList(user, PrefixEmoji.EDIT));
+        keyboard.addAll(getLastTaskList(user, EDIT));
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;
     }

@@ -3,11 +3,15 @@ package ru.pascalcode.tasktracker.bot.updatehandler;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.pascalcode.tasktracker.bot.PrefixEmoji;
+import ru.pascalcode.tasktracker.bot.Emoji;
 import ru.pascalcode.tasktracker.bot.CommandUtils;
 import ru.pascalcode.tasktracker.bot.updatehandler.delete.DeleteUpdateHandler;
-import ru.pascalcode.tasktracker.bot.updatehandler.edit.EditConfirmUpdateHandler;
-import ru.pascalcode.tasktracker.bot.updatehandler.edit.EditUpdateHandler;
+import ru.pascalcode.tasktracker.bot.updatehandler.edittasks.EditTaskConfirmUpdateHandler;
+import ru.pascalcode.tasktracker.bot.updatehandler.edittasks.EditTaskUpdateHandler;
+import ru.pascalcode.tasktracker.bot.updatehandler.edittimerecords.DeleteTimeRecordUpdateHandler;
+import ru.pascalcode.tasktracker.bot.updatehandler.edittimerecords.EditTimeOfTimeRecordConfirmUpdateHandler;
+import ru.pascalcode.tasktracker.bot.updatehandler.edittimerecords.EditTimeOfTimeRecordUpdateHandler;
+import ru.pascalcode.tasktracker.bot.updatehandler.edittimerecords.EditTimeRecordUpdateHandler;
 import ru.pascalcode.tasktracker.bot.updatehandler.home.*;
 import ru.pascalcode.tasktracker.bot.updatehandler.home.report.TodayReportUpdateHandler;
 import ru.pascalcode.tasktracker.bot.updatehandler.home.report.YesterdayReportUpdateHandler;
@@ -43,8 +47,11 @@ public class UpdateHandlerFactory {
             case SETTINGS -> getSettingsUpdateHandler(text);
             case DELETE -> getDeleteUpdateHandler(text);
             case STATIC_TASKS -> getStaticTasksUpdateHandler(text);
-            case EDIT -> getEditUpdateHandler(text);
+            case EDIT_TASKS -> getEditUpdateHandler(text);
             case EDIT_CONFIRM -> getEditConfirmUpdateHandler(text);
+            case EDIT_TIME_RECORDS_LIST -> getEditTimeRecordsUpdateHandler(text);
+            case EDIT_TIME_RECORD -> getEditTimeRecordUpdateHandler(text);
+            case EDIT_TIME_RECORD_CONFIRM -> getEditTimeRecordConfirmUpdateHandler(text);
         };
     }
 
@@ -54,8 +61,9 @@ public class UpdateHandlerFactory {
         }
         return switch (text) {
             case START -> (StartUpdateHandler) applicationContext.getBean("startUpdateHandler");
-            case DELETE -> (ToDeleteListUpdateHandler) applicationContext.getBean("toDeleteListUpdateHandler");
-            case EDIT -> (ToEditListUpdateHandler) applicationContext.getBean("toEditListUpdateHandler");
+            case DELETE_TASKS -> (ToDeleteListUpdateHandler) applicationContext.getBean("toDeleteListUpdateHandler");
+            case EDIT_TASKS -> (ToEditListUpdateHandler) applicationContext.getBean("toEditListUpdateHandler");
+            case EDIT_TIME_RECORDS -> (ToEditTimeRecordsListUpdateHandler) applicationContext.getBean("toEditTimeRecordsListUpdateHandler");
             case STATIC_TASKS -> (ToStaticTasksSettingsUpdateHandler) applicationContext.getBean("toStaticTasksSettingsUpdateHandler");
             case SETTINGS -> (SettingsUpdateHandler) applicationContext.getBean("settingsUpdateHandler");
             case BREAK_BTN -> (BreakUpdateHandler) applicationContext.getBean("breakUpdateHandler");
@@ -66,9 +74,9 @@ public class UpdateHandlerFactory {
     }
 
     private UpdateHandler getSettingsUpdateHandler(String text) {
-        if (text.startsWith(PrefixEmoji.DAY)) {
+        if (text.startsWith(Emoji.DAY)) {
             return (SetFirstDayOfWeekUpdateHandler) applicationContext.getBean("setFirstDayOfWeekUpdateHandler");
-        } else if (text.startsWith(PrefixEmoji.HOUR)) {
+        } else if (text.startsWith(Emoji.HOUR)) {
             return (SetMinWeekHoursUpdateHandler) applicationContext.getBean("setMinWeekHoursUpdateHandler");
         }
         return switch (text) {
@@ -91,20 +99,19 @@ public class UpdateHandlerFactory {
     private UpdateHandler getEditUpdateHandler(String text) {
         return switch (text) {
             case BACK_BTN -> (BackUpdateHandler) applicationContext.getBean("backUpdateHandler");
-            default -> (EditUpdateHandler) applicationContext.getBean("editUpdateHandler");
+            default -> (EditTaskUpdateHandler) applicationContext.getBean("editTaskUpdateHandler");
         };
     }
 
     private UpdateHandler getEditConfirmUpdateHandler(String text) {
         return switch (text) {
             case BACK_BTN -> (BackUpdateHandler) applicationContext.getBean("backUpdateHandler");
-            default -> (EditConfirmUpdateHandler) applicationContext.getBean("editConfirmUpdateHandler");
+            default -> (EditTaskConfirmUpdateHandler) applicationContext.getBean("editTaskConfirmUpdateHandler");
         };
     }
 
     private UpdateHandler getStaticTasksUpdateHandler(String text) {
-
-        if (text.startsWith(PrefixEmoji.DELETE)) {
+        if (text.startsWith(Emoji.DELETE)) {
             return (HideStaticTaskUpdateHandler) applicationContext.getBean("hideStaticTaskUpdateHandler");
         }
         return switch (text) {
@@ -112,5 +119,35 @@ public class UpdateHandlerFactory {
             default -> (StaticTaskRecordUpdateHandler) applicationContext.getBean("staticTaskRecordUpdateHandler");
         };
 
+    }
+
+    private UpdateHandler getEditTimeRecordsUpdateHandler(String text) {
+        if (text.startsWith(Emoji.EDIT)) {
+            return (EditTimeRecordUpdateHandler) applicationContext.getBean("editTimeRecordUpdateHandler");
+        }
+        return switch (text) {
+            case BACK_BTN -> (BackUpdateHandler) applicationContext.getBean("backUpdateHandler");
+            default -> (ToEditTimeRecordsListUpdateHandler) applicationContext.getBean("toEditTimeRecordsListUpdateHandler");
+        };
+    }
+
+    private UpdateHandler getEditTimeRecordUpdateHandler(String text) {
+        if (text.startsWith(Emoji.EDIT)) {
+            return (EditTimeOfTimeRecordUpdateHandler) applicationContext.getBean("editTimeOfTimeRecordUpdateHandler");
+        }
+        if (text.startsWith(Emoji.DELETE)) {
+            return (DeleteTimeRecordUpdateHandler) applicationContext.getBean("deleteTimeRecordUpdateHandler");
+        }
+        return switch (text) {
+            case BACK_BTN -> (BackUpdateHandler) applicationContext.getBean("backUpdateHandler");
+            default -> (ToEditTimeRecordsListUpdateHandler) applicationContext.getBean("toEditTimeRecordsListUpdateHandler");
+        };
+    }
+
+    private UpdateHandler getEditTimeRecordConfirmUpdateHandler(String text) {
+        return switch (text) {
+            case BACK_BTN -> (BackUpdateHandler) applicationContext.getBean("backUpdateHandler");
+            default -> (EditTimeOfTimeRecordConfirmUpdateHandler) applicationContext.getBean("editTimeOfTimeRecordConfirmUpdateHandler");
+        };
     }
 }

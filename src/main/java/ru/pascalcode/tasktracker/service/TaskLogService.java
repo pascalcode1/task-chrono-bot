@@ -27,8 +27,6 @@ public class TaskLogService {
 
     @Transactional
     public TaskLog addTaskLogRecord(Task task) {
-        //TODO добавить проверку на null
-        //TODO продумать вариант если записей будет не одна
         TaskLog taskLog = getUncompletedTask(task.getUser());
         if (taskLog != null) {
             taskLog.setStop(LocalDateTime.now());
@@ -65,9 +63,21 @@ public class TaskLogService {
         return taskLogRepository.findAllByTaskIdAndPeriod(task.getId(), start, stop);
     }
 
+    public List<TaskLog> getLastTaskLogList(User user) {
+        return taskLogRepository.findLastRecordsForUser(user.getId());
+    }
+
     @Transactional
     public void deleteTask(Task task) {
         taskLogRepository.deleteAllByTask(task);
         taskRepository.delete(task);
+    }
+
+    public void deleteTaskLog(Long taskLogId) {
+        taskLogRepository.deleteById(taskLogId);
+    }
+
+    public TaskLog findById(Long id) {
+        return taskLogRepository.findById(id).get();
     }
 }

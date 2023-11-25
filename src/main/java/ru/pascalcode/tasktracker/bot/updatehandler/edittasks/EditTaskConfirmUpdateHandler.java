@@ -1,4 +1,4 @@
-package ru.pascalcode.tasktracker.bot.updatehandler.edit;
+package ru.pascalcode.tasktracker.bot.updatehandler.edittasks;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -12,8 +12,8 @@ import ru.pascalcode.tasktracker.service.TaskService;
 import ru.pascalcode.tasktracker.service.UserService;
 
 @Component
-public class EditConfirmUpdateHandler extends AbstractUpdateHandler {
-    protected EditConfirmUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
+public class EditTaskConfirmUpdateHandler extends AbstractUpdateHandler {
+    protected EditTaskConfirmUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
         super(userService, taskService, taskLogService);
     }
 

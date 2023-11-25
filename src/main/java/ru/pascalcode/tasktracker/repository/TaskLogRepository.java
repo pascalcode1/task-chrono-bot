@@ -50,4 +50,15 @@ public interface TaskLogRepository extends JpaRepository<TaskLog, Long> {
     void deleteAllByTaskId(long taskId);
 
     void deleteAllByTask(Task task);
+
+    void deleteById(long id);
+
+    @Query(nativeQuery = true, value = """
+            select tl.*\s
+            from task_log tl
+            join task t on t.id = tl.task_id
+            where t.user_id = :userId
+            order by tl.id desc
+            limit 20""")
+    List<TaskLog> findLastRecordsForUser(Long userId);
 }

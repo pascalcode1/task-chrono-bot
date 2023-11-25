@@ -13,17 +13,19 @@ import ru.pascalcode.tasktracker.service.TaskLogService;
 import ru.pascalcode.tasktracker.service.TaskService;
 import ru.pascalcode.tasktracker.service.UserService;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import static ru.pascalcode.tasktracker.bot.Buttons.*;
+import static ru.pascalcode.tasktracker.bot.Emoji.*;
 
 public abstract class AbstractUpdateHandler implements UpdateHandler {
 
+    protected final static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
     protected final UserService userService;
-
     protected final TaskService taskService;
-
     protected final TaskLogService taskLogService;
 
     protected AbstractUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
@@ -90,6 +92,11 @@ public abstract class AbstractUpdateHandler implements UpdateHandler {
         return getKeyboardRows(taskToDelete, prefix);
     }
 
+    protected List<KeyboardRow> getTimeRecordsForEditing(User user, String prefix) {
+        List<TaskLog> taskLogs = taskLogService.getLastTaskLogList(user);
+        return getTimeRecordsKeyboardRows(taskLogs, prefix);
+    }
+
     private List<KeyboardRow> getKeyboardRows(List<Task> tasks, String prefix) {
         List<KeyboardRow> keyboardRows = new ArrayList<>();
         KeyboardRow keyboardRow = new KeyboardRow();
@@ -101,6 +108,19 @@ public abstract class AbstractUpdateHandler implements UpdateHandler {
                 keyboardRows.add(keyboardRow);
                 keyboardRow = new KeyboardRow();
             }
+        }
+        return keyboardRows;
+    }
+
+    private List<KeyboardRow> getTimeRecordsKeyboardRows(List<TaskLog> taskLogs, String prefix) {
+        List<KeyboardRow> keyboardRows = new ArrayList<>();
+        for (int i = 0; i < taskLogs.size(); i++) {
+            TaskLog taskLog = taskLogs.get(i);
+            Task task = taskLog.getTask();
+            String start = taskLog.getStart().format(dateTimeFormatter);
+            String stop = taskLog.getStop() == null ? "null" : taskLog.getStop().format(dateTimeFormatter);
+            String button = prefix + task.getName() + TIME_START + start + TIME_STOP + stop + ID + taskLog.getId();
+            keyboardRows.add(new KeyboardRow(List.of(new KeyboardButton(button))));
         }
         return keyboardRows;
     }

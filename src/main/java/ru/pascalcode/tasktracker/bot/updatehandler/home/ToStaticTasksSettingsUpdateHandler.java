@@ -6,7 +6,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
-import ru.pascalcode.tasktracker.bot.PrefixEmoji;
 import ru.pascalcode.tasktracker.bot.updatehandler.AbstractUpdateHandler;
 import ru.pascalcode.tasktracker.model.State;
 import ru.pascalcode.tasktracker.model.User;
@@ -17,6 +16,7 @@ import ru.pascalcode.tasktracker.service.UserService;
 import java.util.List;
 
 import static ru.pascalcode.tasktracker.bot.Buttons.BACK_BTN;
+import static ru.pascalcode.tasktracker.bot.Emoji.DELETE;
 
 @Component
 public class ToStaticTasksSettingsUpdateHandler extends AbstractUpdateHandler {
@@ -36,7 +36,7 @@ public class ToStaticTasksSettingsUpdateHandler extends AbstractUpdateHandler {
     @Override
     protected ReplyKeyboardMarkup getReplyKeyboardMarkup(User user) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        List<KeyboardRow> keyboard = getStaticTasksKeyboardRowList(user, PrefixEmoji.DELETE);
+        List<KeyboardRow> keyboard = getStaticTasksKeyboardRowList(user, DELETE);
         keyboard.add(new KeyboardRow(List.of(new KeyboardButton(BACK_BTN))));
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;

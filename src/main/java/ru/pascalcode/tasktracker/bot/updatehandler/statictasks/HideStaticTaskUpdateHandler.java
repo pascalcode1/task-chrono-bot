@@ -3,7 +3,7 @@ package ru.pascalcode.tasktracker.bot.updatehandler.statictasks;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.pascalcode.tasktracker.bot.PrefixEmoji;
+import ru.pascalcode.tasktracker.bot.Emoji;
 import ru.pascalcode.tasktracker.bot.updatehandler.home.ToStaticTasksSettingsUpdateHandler;
 import ru.pascalcode.tasktracker.model.Task;
 import ru.pascalcode.tasktracker.model.User;
@@ -22,7 +22,7 @@ public class HideStaticTaskUpdateHandler extends ToStaticTasksSettingsUpdateHand
 
     @Override
     protected void handle(Update update, SendMessage answer, User user) {
-        String taskName = update.getMessage().getText().replaceFirst(PrefixEmoji.DELETE,"");
+        String taskName = update.getMessage().getText().replaceFirst(Emoji.DELETE,"");
         Task task = taskService.getTask(taskName, user);
         taskService.hideTask(task);
         answer.setText(String.format(TASK_REMOVED_FROM_STATIC_BAR, task.getName()));
