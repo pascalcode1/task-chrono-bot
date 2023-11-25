@@ -1,13 +1,11 @@
 package ru.pascalcode.tasktracker.bot.updatehandler;
 
-import org.apache.commons.lang3.StringUtils;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
-import ru.pascalcode.tasktracker.bot.PrefixEmoji;
 import ru.pascalcode.tasktracker.model.Task;
 import ru.pascalcode.tasktracker.model.TaskLog;
 import ru.pascalcode.tasktracker.model.User;
@@ -52,7 +50,7 @@ public abstract class AbstractUpdateHandler implements UpdateHandler {
 
     protected ReplyKeyboardMarkup getReplyKeyboardMarkup(User user) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        List<KeyboardRow> keyboard = getTaskToShowKeyboardRowList(user);
+        List<KeyboardRow> keyboard = getStaticTasksKeyboardRowList(user);
         if (keyboard.isEmpty()) {
             List<Task> allTaskForUser = taskService.getAllTask(user);
             if (allTaskForUser.isEmpty()) {
@@ -78,24 +76,13 @@ public abstract class AbstractUpdateHandler implements UpdateHandler {
         return userService.getUser(update.getMessage().getFrom());
     }
 
-    protected List<KeyboardRow> getTaskToShowKeyboardRowList(User user) {
-        return getTaskToShowKeyboardRowList(user, "");
-    }
-
     protected List<KeyboardRow> getStaticTasksKeyboardRowList(User user) {
-        List<Task> taskList = taskService.getStaticTasksToShowOnButtonBar(user);
-        return getKeyboardRows(taskList, PrefixEmoji.DELETE);
+        return getStaticTasksKeyboardRowList(user, "");
     }
 
-    protected List<KeyboardRow> getTaskToShowKeyboardRowList(User user, String prefix) {
-        List<Task> taskList = taskService.getTasksToShowOnButtonBar(user);
-        List<Task> staticTaskList = new ArrayList<>();
-        if (StringUtils.isEmpty(prefix)) {
-            staticTaskList = taskService.getStaticTasksToShowOnButtonBar(user);
-        }
-        List<KeyboardRow> keyboardRows = getKeyboardRows(taskList, prefix);
-        keyboardRows.addAll(getKeyboardRows(staticTaskList, prefix));
-        return keyboardRows;
+    protected List<KeyboardRow> getStaticTasksKeyboardRowList(User user, String prefix) {
+        List<Task> staticTaskList = taskService.getStaticTasks(user);
+        return getKeyboardRows(staticTaskList, prefix);
     }
 
     protected List<KeyboardRow> getLastTaskList(User user, String prefix) {

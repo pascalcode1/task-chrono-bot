@@ -13,7 +13,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     Task findByUserAndName(User user, String name);
 
-    List<Task> findAllByUserAndShowOnButtonBarAndStaticTaskOrderByIdAsc(User user, boolean showOnButtonBar, boolean staticTask);
+    List<Task> findAllByUserAndStaticTaskOrderByIdAsc(User user, boolean staticTask);
 
     List<Task> findAllByUser(User user);
 

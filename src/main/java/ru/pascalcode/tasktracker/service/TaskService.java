@@ -30,10 +30,6 @@ public class TaskService {
         if (task == null) {
             return taskRepository.save(new Task(user, name));
         }
-        if (Boolean.TRUE.equals(user.getAddNewTasksToButtonBar()) && Boolean.FALSE.equals(task.getShowOnButtonBar())) {
-            task.setShowOnButtonBar(true);
-            taskRepository.save(task);
-        }
         return task;
     }
 
@@ -50,22 +46,17 @@ public class TaskService {
     public Task getStaticTask(String name, User user) {
         Task task = taskRepository.findByUserAndName(user, name);
         if (task == null) {
-            return taskRepository.save(new Task(user, name, true, true));
+            return taskRepository.save(new Task(user, name, true));
         }
-        if (Boolean.FALSE.equals(task.getShowOnButtonBar()) || Boolean.FALSE.equals(task.getStaticTask())) {
-            task.setShowOnButtonBar(true);
+        if (Boolean.FALSE.equals(task.getStaticTask())) {
             task.setStaticTask(true);
             taskRepository.save(task);
         }
         return task;
     }
 
-    public List<Task> getStaticTasksToShowOnButtonBar(User user) {
-        return taskRepository.findAllByUserAndShowOnButtonBarAndStaticTaskOrderByIdAsc(user, true, true);
-    }
-
-    public List<Task> getTasksToShowOnButtonBar(User user) {
-        return taskRepository.findAllByUserAndShowOnButtonBarAndStaticTaskOrderByIdAsc(user, true, false);
+    public List<Task> getStaticTasks(User user) {
+        return taskRepository.findAllByUserAndStaticTaskOrderByIdAsc(user, true);
     }
 
     public List<Task> getLastTasksList(User user) {
@@ -77,7 +68,7 @@ public class TaskService {
     }
 
     public Task hideTask(Task task) {
-        task.setShowOnButtonBar(false);
+        task.setStaticTask(false);
         return taskRepository.save(task);
     }
 

@@ -49,7 +49,7 @@ public class BreakUpdateHandler extends AbstractUpdateHandler {
     @Override
     protected ReplyKeyboardMarkup getReplyKeyboardMarkup(User user) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        List<KeyboardRow> keyboard = getTaskToShowKeyboardRowList(user);
+        List<KeyboardRow> keyboard = getStaticTasksKeyboardRowList(user);
         keyboard.add(new KeyboardRow(List.of(new KeyboardButton(TODAY_REPORT_BTN), new KeyboardButton(YESTERDAY_REPORT_BTN))));
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;

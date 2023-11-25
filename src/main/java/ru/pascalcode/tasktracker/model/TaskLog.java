@@ -16,13 +16,10 @@ public class TaskLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "task_id", nullable = false)
     private Task task;
-
     private LocalDateTime start;
-
     private LocalDateTime stop;
 
     public TaskLog(Task task, LocalDateTime start) {

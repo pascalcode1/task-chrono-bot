@@ -5,13 +5,9 @@ create table users
     user_name                   varchar(128),
     first_name                  varchar(128),
     last_name                   varchar(128),
-    rate                        integer,
-    currency                    varchar(8),
-    money_stat                  boolean     default false,
     min_week_hours              integer,
     first_day_of_week           integer,
     week_hours_stat             boolean     not null default false,
-    add_new_tasks_to_button_bar boolean     not null default false,
     state                       integer     not null default 0,
     meta                        varchar(128),
     constraint fk_state foreign key (state) references state (id)
@@ -22,7 +18,6 @@ create table task
     id                  bigserial       not null primary key,
     name                varchar(128)    not null,
     user_id             bigint          not null,
-    show_on_button_bar  boolean         default false,
     static_task         boolean         default false,
     constraint fk_user_id foreign key (user_id) references users (id)
 );

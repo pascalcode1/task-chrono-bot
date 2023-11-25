@@ -14,31 +14,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Long telegramId;
-
     private String userName;
-
     private String firstName;
-
     private String lastName;
-
-    private Integer rate;
-
-    private String currency;
-
-    private Boolean moneyStat;
-
     private Integer minWeekHours;
-
     private Integer firstDayOfWeek;
-
     private Boolean weekHoursStat;
-
-    private Boolean addNewTasksToButtonBar;
-
     private State state;
-
     private String meta;
 
     public User(Long telegramId) {
@@ -58,8 +41,6 @@ public class User {
         this.minWeekHours = 40;
         this.firstDayOfWeek = 1;
         this.weekHoursStat = false;
-        this.moneyStat = false;
-        this.addNewTasksToButtonBar = false;
         this.state = State.HOME;
     }
 }

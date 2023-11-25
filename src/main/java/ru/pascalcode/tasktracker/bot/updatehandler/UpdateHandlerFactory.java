@@ -75,8 +75,6 @@ public class UpdateHandlerFactory {
             case BACK_BTN -> (BackUpdateHandler) applicationContext.getBean("backUpdateHandler");
             case WEEK_HOURS_STATE_ON_BTN -> (EnableWeekProgressUpdateHandler) applicationContext.getBean("enableWeekProgressUpdateHandler");
             case WEEK_HOURS_STATE_OFF_BTN -> (DisableWeekProgressUpdateHandler) applicationContext.getBean("disableWeekProgressUpdateHandler");
-            case ADD_NEW_TASKS_TO_BAR_ON_BTN -> (EnableAddNewTaskToBarUpdateHandler) applicationContext.getBean("enableAddNewTaskToBarUpdateHandler");
-            case ADD_NEW_TASKS_TO_BAR_OFF_BTN -> (DisableAddNewTaskToBarUpdateHandler) applicationContext.getBean("disableAddNewTaskToBarUpdateHandler");
             case FIRST_DAY_OF_WEEK_BTN -> (ChooseFirstDayOfWeekUpdateHandler) applicationContext.getBean("chooseFirstDayOfWeekUpdateHandler");
             case MIN_WEEK_HOURS_BTN -> (ChooseMinWeekHoursUpdateHandler) applicationContext.getBean("chooseMinWeekHoursUpdateHandler");
             default -> (SettingsUpdateHandler) applicationContext.getBean("settingsUpdateHandler");

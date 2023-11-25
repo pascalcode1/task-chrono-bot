@@ -39,7 +39,7 @@ public class TaskRecordUpdateHandler extends AbstractUpdateHandler {
     @Override
     protected ReplyKeyboardMarkup getReplyKeyboardMarkup(User user) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        List<KeyboardRow> tasksToShow = getTaskToShowKeyboardRowList(user);
+        List<KeyboardRow> tasksToShow = getStaticTasksKeyboardRowList(user);
         boolean hasUncompleted = taskLogService.getUncompletedTask(user) != null;
         tasksToShow.add(new KeyboardRow(List.of(new KeyboardButton(hasUncompleted ? BREAK_BTN : TODAY_REPORT_BTN),
                                                 new KeyboardButton(YESTERDAY_REPORT_BTN))));

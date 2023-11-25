@@ -53,7 +53,7 @@ public class ReportUtils {
                 .filter(taskLog -> !taskLog.getTask().getName().equals(taskName))
                 .toList().isEmpty();
         if (!isValid) {
-            throw new RuntimeException("\"taskLogList\" mast include only tasks with task name \"" + taskName + "\"");
+            throw new RuntimeException("\"taskLogList\" should only include only tasks with task name \"" + taskName + "\"");
         }
     }
 
