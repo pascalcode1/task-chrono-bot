@@ -1,3 +1,9 @@
+create table state
+(
+    id  integer not null primary key,
+    name varchar(64)
+);
+
 create table users
 (
     id                          bigserial   primary key,
@@ -31,11 +37,6 @@ create table task_log
     constraint fk_task_id foreign key (task_id) references task (id)
 );
 
-create table state
-(
-    id  integer not null primary key,
-    name varchar(32)
-);
 insert into state (id, name) values (0, 'Home');
 insert into state (id, name) values (1, 'Settings');
 insert into state (id, name) values (2, 'Delete tasks');
