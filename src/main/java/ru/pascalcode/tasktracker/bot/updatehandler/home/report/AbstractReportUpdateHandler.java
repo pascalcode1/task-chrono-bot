@@ -31,7 +31,7 @@ public abstract class AbstractReportUpdateHandler extends AbstractUpdateHandler 
         for (TaskLogDto taskLogDto : taskLogDtoList) {
             stringJoiner.add(taskLogDto.toString());
         }
-        stringJoiner.add(ReportUtils.getTotal(taskLogDtoList).toString());
+        stringJoiner.add(ReportUtils.getTotal(taskLogDtoList).toString().replaceAll("`", ""));
         if (Boolean.TRUE.equals(user.getWeekHoursStat())) {
             stringJoiner.add(getProgressForWeek(user, reportDay));
         }

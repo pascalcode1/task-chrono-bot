@@ -18,14 +18,21 @@ public class TaskLogDto {
 
     @Override
     public String toString() {
-        return name + ":   " + getTime() + "   (" + getDecimal() + ")   " + (taskId != 0 ? "/" + taskId : "");
+        return "`" + name + "``: `" + getTime() + " (" + getDecimal() + ")  " + (taskId != 0 ? "/" + taskId : "");
     }
 
     private String getTime() {
         return ReportUtils.getTimeFromMillis(millis);
     }
 
-    private Double getDecimal() {
-        return Double.parseDouble(new DecimalFormat("#0.00").format((double) millis / 3_600_000));
+    private String getDecimal() {
+        DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+        double hours = (double) millis / 3_600_000;
+        double formattedHours = Double.parseDouble(decimalFormat.format(hours));
+        String string = String.valueOf(formattedHours);
+        if (string.substring(string.indexOf(".")).length() < 3) {
+            string = string + 0;
+        }
+        return string;
     }
 }

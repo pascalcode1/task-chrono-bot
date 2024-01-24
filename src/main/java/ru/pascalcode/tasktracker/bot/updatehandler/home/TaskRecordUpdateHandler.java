@@ -21,7 +21,7 @@ import static ru.pascalcode.tasktracker.bot.Buttons.*;
 @Component
 public class TaskRecordUpdateHandler extends AbstractUpdateHandler {
 
-    private static final String TASK_IN_PROGRESS = "The task \"%s\" in progress /%d";
+    private static final String TASK_IN_PROGRESS = "👨‍💻 The task \"%s\" in progress /%d";
 
     public TaskRecordUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
         super(userService, taskService, taskLogService);

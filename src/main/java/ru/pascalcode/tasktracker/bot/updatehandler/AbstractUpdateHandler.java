@@ -45,6 +45,7 @@ public abstract class AbstractUpdateHandler implements UpdateHandler {
         replyKeyboardMarkup.setResizeKeyboard(true);
         answer.setReplyMarkup(replyKeyboardMarkup);
         answer.setChatId(chatId.toString());
+        answer.enableMarkdown(true);
         return answer;
     }
 
