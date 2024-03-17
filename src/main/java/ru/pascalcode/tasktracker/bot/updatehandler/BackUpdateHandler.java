@@ -35,7 +35,7 @@ public class BackUpdateHandler extends AbstractReportUpdateHandler { //TODO need
         TaskLog uncompletedTask = taskLogService.getUncompletedTask(user);
         if (uncompletedTask != null) {
             Task task = uncompletedTask.getTask();
-            answer.setText(String.format(TASK_IN_PROGRESS, task.getName(), task.getId()));
+            answer.setText(String.format(TASK_IN_PROGRESS, task.getName(), task.getUserTaskId()));
         } else {
             LocalDateTime reportDay = LocalDateTime.now();
             setReportToAnswer(user, reportDay, answer);

@@ -15,11 +15,12 @@ public class ReportUtils {
 
     public static List<TaskLogDto> toDtoList(List<TaskLog> taskLogList) {
         return taskLogList.stream()
-                .collect(Collectors.groupingBy(TaskLog::getTask))
-                .entrySet()
-                .stream()
-                .map(entry -> getTimeForTaskByTaskLog(entry.getKey(), entry.getValue()))
-                .toList();
+                          .collect(Collectors.groupingBy(TaskLog::getTask))
+                          .entrySet()
+                          .stream()
+                          .map(entry -> getTimeForTaskByTaskLog(entry.getKey(), entry.getValue()))
+                          .sorted()
+                          .toList();
     }
 
     public static TaskLogDto getTimeForTaskByTaskLog(Task task, List<TaskLog> taskLogList) {
@@ -31,7 +32,7 @@ public class ReportUtils {
             }
         });
         long summaryMillis = getTotalMillis(taskLogList);
-        return new TaskLogDto(task.getName(), summaryMillis, task.getId());
+        return new TaskLogDto(task.getName(), summaryMillis, task);
     }
 
     public static String getTimeFromMillis(long millis) {
@@ -41,19 +42,29 @@ public class ReportUtils {
     }
 
     public static long getTotalMillis(List<TaskLog> taskLogList) {
-        return taskLogList.stream().map(tl -> {
-                    long startMilli = tl.getStart().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-                    long stopMilli = tl.getStop().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-                    return stopMilli - startMilli;
-                })
-                .collect(Collectors.summarizingLong(Long::longValue))
-                .getSum();
+        return taskLogList.stream()
+                          .map(tl -> {
+                                   long startMilli = tl.getStart()
+                                                       .atZone(ZoneId.systemDefault())
+                                                                     .toInstant()
+                                                                     .toEpochMilli();
+                                   long stopMilli = tl.getStop()
+                                                      .atZone(ZoneId.systemDefault())
+                                                      .toInstant()
+                                                      .toEpochMilli();
+                                   return stopMilli - startMilli;
+                               })
+                          .collect(Collectors.summarizingLong(Long::longValue))
+                          .getSum();
     }
 
     private static void validateTaskLogList(String taskName, List<TaskLog> taskLogList) {
         boolean isValid = taskLogList.stream()
-                .filter(taskLog -> !taskLog.getTask().getName().equals(taskName))
-                .toList().isEmpty();
+                                     .filter(taskLog -> !taskLog.getTask()
+                                                                .getName()
+                                                                .equals(taskName))
+                                     .toList()
+                                     .isEmpty();
         if (!isValid) {
             throw new RuntimeException("\"taskLogList\" should only include only tasks with task name \"" + taskName + "\"");
         }
@@ -61,10 +72,10 @@ public class ReportUtils {
 
     public static TaskLogDto getTotal(List<TaskLogDto> taskLogDtoList) {
         long totalMillis = taskLogDtoList.stream()
-                .map(TaskLogDto::getMillis)
-                .collect(Collectors.summarizingLong(Long::longValue))
-                .getSum();
-        return new TaskLogDto("\n***Total***", totalMillis, 0L);
+                                         .map(TaskLogDto::getMillis)
+                                         .collect(Collectors.summarizingLong(Long::longValue))
+                                         .getSum();
+        return new TaskLogDto("\n***Total***", totalMillis, null);
     }
 
     public static String toString(TaskLogDto taskLogDto) {
@@ -80,7 +91,8 @@ public class ReportUtils {
             }
         }
 
-        return "`" + taskNameBuilder + "`" + taskLogDto.getTime() + " (" + taskLogDto.getDecimal() + ")  " + (taskLogDto.getTaskId() != 0 ? "/" + taskLogDto.getTaskId() : "");
+        return "`" + taskNameBuilder + "`" + taskLogDto.getTime() + " (" + taskLogDto.getDecimal() + ")  "
+                + (taskLogDto.getTask() == null ? "" : "/" + taskLogDto.getTask().getUserTaskId());
 
     }
 

@@ -29,9 +29,10 @@ public class ChooseFirstDayOfWeekUpdateHandler extends AbstractSettingsUpdateHan
     protected ReplyKeyboardMarkup getReplyKeyboardMarkup(User user) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         List<KeyboardRow> keyboard = SettingsUtils.getWeekDayNames()
-                .stream()
-                .map(day -> new KeyboardRow(List.of(new KeyboardButton("\uD83D\uDCC6" + day))))
-                .toList();
+                                                  .stream()
+                                                  .map(day -> new KeyboardRow(List.of(
+                                                          new KeyboardButton("\uD83D\uDCC6" + day))))
+                                                  .toList();
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;
     }

@@ -42,7 +42,9 @@ public abstract class AbstractUpdateHandler implements UpdateHandler {
         SendMessage answer = new SendMessage();
         handle(update, answer, user);
         ReplyKeyboardMarkup replyKeyboardMarkup = getReplyKeyboardMarkup(user);
-        replyKeyboardMarkup.setResizeKeyboard(true);
+        if (replyKeyboardMarkup != null) {
+            replyKeyboardMarkup.setResizeKeyboard(true);
+        }
         answer.setReplyMarkup(replyKeyboardMarkup);
         answer.setChatId(chatId.toString());
         answer.enableMarkdown(true);

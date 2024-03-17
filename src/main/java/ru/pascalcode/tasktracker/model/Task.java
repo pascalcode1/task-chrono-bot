@@ -18,17 +18,20 @@ public class Task {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+    private Long userTaskId;
     private Boolean staticTask;
 
-    public Task(User user, String name) {
+    public Task(User user, String name, Long userTaskId) {
         this.user = user;
         this.name = name;
+        this.userTaskId = userTaskId;
         this.staticTask = false;
     }
 
-    public Task(User user, String name, Boolean staticTask) {
+    public Task(User user, String name, Long userTaskId, Boolean staticTask) {
         this.user = user;
         this.name = name;
+        this.userTaskId = userTaskId;
         this.staticTask = staticTask;
     }
 }

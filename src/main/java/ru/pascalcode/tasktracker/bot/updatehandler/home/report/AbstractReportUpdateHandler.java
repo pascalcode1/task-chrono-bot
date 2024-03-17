@@ -31,7 +31,8 @@ public abstract class AbstractReportUpdateHandler extends AbstractUpdateHandler 
         StringJoiner stringJoiner = new StringJoiner("\n");
         stringJoiner.add("***" + reportDay.format(DateTimeFormatter.ofPattern("d MMMM yyyy")) + " report***\n");
         int longestTaskName = taskLogDtoList.stream()
-                                            .map(tld -> tld.getName().length())
+                                            .map(tld -> tld.getName()
+                                                           .length())
                                             .filter(l -> l <= TASK_NAME_LENGTH_LIMIT)
                                             .max(Integer::compareTo)
                                             .orElse(0);

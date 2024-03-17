@@ -1,20 +1,27 @@
 package ru.pascalcode.tasktracker.bot.dto;
 
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.jetbrains.annotations.NotNull;
 import ru.pascalcode.tasktracker.bot.updatehandler.home.report.ReportUtils;
+import ru.pascalcode.tasktracker.model.Task;
 
 import java.text.DecimalFormat;
 
 @Data
 @AllArgsConstructor
-public class TaskLogDto {
+public class TaskLogDto implements Comparable<TaskLogDto>{
 
     private String name;
 
     private Long millis;
 
-    private Long taskId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "task_id", nullable = false)
+    private Task task;
 
     public String getTime() {
         return ReportUtils.getTimeFromMillis(millis);
@@ -29,5 +36,10 @@ public class TaskLogDto {
             string = string + 0;
         }
         return string;
+    }
+
+    @Override
+    public int compareTo(@NotNull TaskLogDto o) {
+        return (int) (this.getTask().getUserTaskId() - o.getTask().getUserTaskId());
     }
 }

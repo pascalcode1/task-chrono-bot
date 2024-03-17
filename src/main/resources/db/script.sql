@@ -25,7 +25,10 @@ create table task
     name                varchar(128)    not null,
     user_id             bigint          not null,
     static_task         boolean         default false,
-    constraint fk_user_id foreign key (user_id) references users (id)
+    user_task_id        bigint          not null,
+    constraint fk_user_id foreign key (user_id) references users (id),
+    constraint unique_id_user_task_id unique(id, user_task_id),
+    constraint unique_name_user_id unique(name, user_id)
 );
 
 create table task_log

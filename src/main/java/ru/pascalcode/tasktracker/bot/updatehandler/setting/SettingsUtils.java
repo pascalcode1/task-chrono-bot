@@ -25,16 +25,19 @@ public class SettingsUtils {
     }
 
     public static List<String> getWeekDayNames() {
-        return weekMap.values().stream().toList();
+        return weekMap.values()
+                      .stream()
+                      .toList();
     }
 
     public static int getDayIndexByName(String dayName) {
         validateDayOfWeek(dayName);
-        return weekMap.entrySet().stream()
-                .filter(day -> day.getValue().equals(dayName))
-                .map(Map.Entry::getKey)
-                .findFirst()
-                .get();
+        return weekMap.entrySet()
+                      .stream()
+                      .filter(day -> day.getValue().equals(dayName))
+                      .map(Map.Entry::getKey)
+                      .findFirst()
+                      .get();
     }
 
     private static void validateDayOfWeek(String dayName) {

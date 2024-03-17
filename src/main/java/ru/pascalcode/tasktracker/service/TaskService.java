@@ -17,8 +17,8 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
 
-    public void saveTask(Task task) {
-        taskRepository.save(task);
+    public Task saveTask(Task task) {
+        return taskRepository.save(task);
     }
 
     @Transactional
@@ -28,7 +28,7 @@ public class TaskService {
             task = taskRepository.findByUserAndName(user, name);
         }
         if (task == null) {
-            return taskRepository.save(new Task(user, name));
+            return saveTask(new Task(user, name, createUserTaskId(user)));
         }
         return task;
     }
@@ -46,11 +46,11 @@ public class TaskService {
     public Task getStaticTask(String name, User user) {
         Task task = taskRepository.findByUserAndName(user, name);
         if (task == null) {
-            return taskRepository.save(new Task(user, name, true));
+            return saveTask(new Task(user, name, createUserTaskId(user), true));
         }
         if (Boolean.FALSE.equals(task.getStaticTask())) {
             task.setStaticTask(true);
-            taskRepository.save(task);
+            saveTask(task);
         }
         return task;
     }
@@ -69,7 +69,7 @@ public class TaskService {
 
     public Task hideTask(Task task) {
         task.setStaticTask(false);
-        return taskRepository.save(task);
+        return saveTask(task);
     }
 
     public Task getTaskIdReceived(User user, String text) {
@@ -80,13 +80,19 @@ public class TaskService {
         if (!cropped.matches("\\d+")) {
             return null;
         }
-        return taskRepository.findByUserAndId(user, Long.parseLong(cropped));
+        return taskRepository.findByUserAndUserTaskId(user, Long.parseLong(cropped));
     }
 
     public void renameTask(User user, String newTaskName) {
-        taskRepository.findById(Long.valueOf(user.getMeta())).ifPresent(t -> {
-            t.setName(newTaskName);
-            taskRepository.save(t);
-        });
+        taskRepository.findById(Long.valueOf(user.getMeta()))
+                      .ifPresent(task -> {
+                                     task.setName(newTaskName);
+                                     saveTask(task);
+                                 });
+    }
+
+    private Long createUserTaskId(User user) {
+        Long maxUserTaskId = taskRepository.findMaxUserTaskId(user.getId());
+        return maxUserTaskId == null ? 0 : ++maxUserTaskId;
     }
 }
