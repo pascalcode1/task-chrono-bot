@@ -15,6 +15,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.StringJoiner;
 
+import static ru.pascalcode.tasktracker.bot.updatehandler.home.report.ReportUtils.TASK_NAME_LENGTH_LIMIT;
+
 public abstract class AbstractReportUpdateHandler extends AbstractUpdateHandler {
 
     private static final String WEEK_PROGRESS = "%s hours out of %s this week (%s%%)";
@@ -27,11 +29,16 @@ public abstract class AbstractReportUpdateHandler extends AbstractUpdateHandler 
         List<TaskLog> taskLogList = taskLogService.getReport(user, reportDay);
         List<TaskLogDto> taskLogDtoList = ReportUtils.toDtoList(taskLogList);
         StringJoiner stringJoiner = new StringJoiner("\n");
-        stringJoiner.add(reportDay.format(DateTimeFormatter.ofPattern("d MMMM yyyy")) + " report\n");
+        stringJoiner.add("***" + reportDay.format(DateTimeFormatter.ofPattern("d MMMM yyyy")) + " report***\n");
+        int longestTaskName = taskLogDtoList.stream()
+                                            .map(tld -> tld.getName().length())
+                                            .filter(l -> l <= TASK_NAME_LENGTH_LIMIT)
+                                            .max(Integer::compareTo)
+                                            .orElse(0);
         for (TaskLogDto taskLogDto : taskLogDtoList) {
-            stringJoiner.add(taskLogDto.toString());
+            stringJoiner.add(ReportUtils.toString(taskLogDto, longestTaskName));
         }
-        stringJoiner.add(ReportUtils.getTotal(taskLogDtoList).toString().replaceAll("`", ""));
+        stringJoiner.add(ReportUtils.toString(ReportUtils.getTotal(taskLogDtoList)).replaceAll("`", ""));
         if (Boolean.TRUE.equals(user.getWeekHoursStat())) {
             stringJoiner.add(getProgressForWeek(user, reportDay));
         }

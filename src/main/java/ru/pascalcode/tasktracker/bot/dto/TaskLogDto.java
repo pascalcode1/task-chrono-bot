@@ -16,16 +16,11 @@ public class TaskLogDto {
 
     private Long taskId;
 
-    @Override
-    public String toString() {
-        return "`" + name + "``: `" + getTime() + " (" + getDecimal() + ")  " + (taskId != 0 ? "/" + taskId : "");
-    }
-
-    private String getTime() {
+    public String getTime() {
         return ReportUtils.getTimeFromMillis(millis);
     }
 
-    private String getDecimal() {
+    public String getDecimal() {
         DecimalFormat decimalFormat = new DecimalFormat("#0.00");
         double hours = (double) millis / 3_600_000;
         double formattedHours = Double.parseDouble(decimalFormat.format(hours));

@@ -25,13 +25,13 @@ public class EditTaskConfirmUpdateHandler extends AbstractUpdateHandler {
             user.setState(State.HOME);
             user.setMeta(null);
             userService.saveUser(user);
-            answer.setText("There is no task with name \"" + newTaskName + "\"");
+            answer.setText("There is no task with name `" + newTaskName + "`");
         } else {
             taskService.renameTask(user, newTaskName);
             user.setState(State.HOME);
             user.setMeta(null);
             userService.saveUser(user);
-            answer.setText("Name of task \"" + task.getName() + "\" was changed to \"" + newTaskName + "\"");
+            answer.setText("Name of task `" + task.getName() + "` was changed to `" + newTaskName + "`");
         }
     }
 }

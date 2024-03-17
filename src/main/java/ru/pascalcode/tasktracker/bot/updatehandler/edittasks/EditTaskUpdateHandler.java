@@ -31,12 +31,12 @@ public class EditTaskUpdateHandler extends AbstractUpdateHandler {
         String taskName = update.getMessage().getText().replaceFirst(EDIT,"");
         Task task = taskService.getTask(taskName, user);
         if (task == null) {
-            answer.setText("There is no task with name \"" + taskName + "\"");
+            answer.setText("There is no task with name `" + taskName + "`");
         } else {
             user.setState(State.EDIT_CONFIRM);
             user.setMeta(String.valueOf(task.getId()));
             userService.saveUser(user);
-            answer.setText("Send the new name of the task \"" + taskName + "\"");
+            answer.setText("Send the new name of the task `" + taskName + "`");
         }
     }
 

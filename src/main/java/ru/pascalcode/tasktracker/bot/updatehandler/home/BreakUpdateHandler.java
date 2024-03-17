@@ -43,7 +43,7 @@ public class BreakUpdateHandler extends AbstractUpdateHandler {
         taskLogService.saveTaskLog(taskLog);
         List<TaskLog> taskLogList = taskLogService.findAllByTaskToday(taskLog.getTask());
         TaskLogDto taskLogDto = ReportUtils.getTimeForTaskByTaskLog(taskLog.getTask(), taskLogList);
-        answer.setText(String.format(BREAK, taskLogDto));
+        answer.setText(String.format(BREAK, ReportUtils.toString(taskLogDto)));
     }
 
     @Override

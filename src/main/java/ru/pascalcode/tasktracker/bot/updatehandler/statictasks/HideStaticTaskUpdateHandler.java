@@ -14,7 +14,7 @@ import ru.pascalcode.tasktracker.service.UserService;
 @Component
 public class HideStaticTaskUpdateHandler extends ToStaticTasksSettingsUpdateHandler {
 
-    private static final String TASK_REMOVED_FROM_STATIC_BAR = "The static task \"%s\" removed from button bar";
+    private static final String TASK_REMOVED_FROM_STATIC_BAR = "The static task `%s` removed from button bar";
 
     protected HideStaticTaskUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
         super(userService, taskService, taskLogService);

@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 
 public class ReportUtils {
 
+    public static int TASK_NAME_LENGTH_LIMIT = 35;
+
     public static List<TaskLogDto> toDtoList(List<TaskLog> taskLogList) {
         return taskLogList.stream()
                 .collect(Collectors.groupingBy(TaskLog::getTask))
@@ -62,7 +64,24 @@ public class ReportUtils {
                 .map(TaskLogDto::getMillis)
                 .collect(Collectors.summarizingLong(Long::longValue))
                 .getSum();
-        return new TaskLogDto("\nTotal", totalMillis, 0L);
+        return new TaskLogDto("\n***Total***", totalMillis, 0L);
+    }
+
+    public static String toString(TaskLogDto taskLogDto) {
+        return toString(taskLogDto, null);
+    }
+
+    public static String toString(TaskLogDto taskLogDto, Integer requiredTaskNameLength) {
+        StringBuilder taskNameBuilder = new StringBuilder(taskLogDto.getName());
+        taskNameBuilder.append(" ");
+        if (requiredTaskNameLength != null) {
+            while (taskNameBuilder.length() < requiredTaskNameLength + 1) {
+                taskNameBuilder.append(" ");
+            }
+        }
+
+        return "`" + taskNameBuilder + "`" + taskLogDto.getTime() + " (" + taskLogDto.getDecimal() + ")  " + (taskLogDto.getTaskId() != 0 ? "/" + taskLogDto.getTaskId() : "");
+
     }
 
 }

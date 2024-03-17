@@ -30,10 +30,10 @@ public class DeleteUpdateHandler extends AbstractUpdateHandler {
         String taskName = update.getMessage().getText().replaceFirst(DELETE,"");
         Task task = taskService.getTask(taskName, user);
         if (task == null) {
-            answer.setText("There is no task with name \"" + taskName + "\"");
+            answer.setText("There is no task with name `" + taskName + "`");
         } else {
             taskLogService.deleteTask(task);
-            answer.setText("The task \"" + taskName + "\" deleted");
+            answer.setText("The task `" + taskName + "` deleted");
         }
     }
 
