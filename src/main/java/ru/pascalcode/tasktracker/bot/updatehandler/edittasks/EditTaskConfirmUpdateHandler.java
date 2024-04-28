@@ -48,13 +48,4 @@ public class EditTaskConfirmUpdateHandler extends AbstractUpdateHandler {
             }
         }
     }
-
-    @Override
-    protected ReplyKeyboardMarkup getReplyKeyboardMarkup(User user) {
-        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        List<KeyboardRow> keyboard = new ArrayList<>();
-        keyboard.add(new KeyboardRow(List.of(new KeyboardButton(BACK_BTN))));
-        replyKeyboardMarkup.setKeyboard(keyboard);
-        return replyKeyboardMarkup;
-    }
 }
