@@ -3,9 +3,9 @@ package ru.pascalcode.tasktracker.bot.dto;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.jetbrains.annotations.NotNull;
 import ru.pascalcode.tasktracker.bot.updatehandler.home.report.ReportUtils;
 import ru.pascalcode.tasktracker.model.Task;
 

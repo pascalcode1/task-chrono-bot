@@ -16,13 +16,12 @@ import static ru.pascalcode.tasktracker.bot.Commands.*;
 
 @Component
 public final class Bot extends TelegramLongPollingBot implements InitializingBean {
-    private static final Dotenv dotenv = Dotenv.load();
-    private static final String BOT_NAME = dotenv.get("BOT_NAME");
-    private static final String BOT_TOKEN = dotenv.get("BOT_TOKEN");
+    private final Dotenv dotenv;
     private static Bot instance;
     private final UpdateHandlerFactory updateHandlerFactory;
 
-    public Bot(UpdateHandlerFactory updateHandlerFactory) throws TelegramApiException {
+    public Bot(Dotenv dotenv, UpdateHandlerFactory updateHandlerFactory) throws TelegramApiException {
+        this.dotenv = dotenv;
         this.updateHandlerFactory = updateHandlerFactory;
         setCommands();
     }
@@ -41,12 +40,12 @@ public final class Bot extends TelegramLongPollingBot implements InitializingBea
 
     @Override
     public String getBotUsername() {
-        return BOT_NAME;
+        return dotenv.get("BOT_NAME");
     }
 
     @Override
     public String getBotToken() {
-        return BOT_TOKEN;
+        return dotenv.get("BOT_TOKEN");
     }
 
     @Override
