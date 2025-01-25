@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Jar build
-        run: gradle build
+        run: cd ${{ github.workspace }} && gradle build
 
       - name: Checkout repository
         uses: actions/checkout@v4
