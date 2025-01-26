@@ -77,9 +77,7 @@ public final class Bot extends TelegramLongPollingBot implements InitializingBea
 
     private String getVariable(String variable) {
         String systemEnvVariable = System.getenv(variable);
-        return StringUtils.isNotBlank(systemEnvVariable)
-             ? systemEnvVariable
-             : dotenv.get(variable);
+        return StringUtils.defaultIfEmpty(systemEnvVariable, dotenv.get(variable));
     }
 
 }
