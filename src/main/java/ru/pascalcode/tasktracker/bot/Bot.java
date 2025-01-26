@@ -1,6 +1,7 @@
 package ru.pascalcode.tasktracker.bot;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -16,8 +17,13 @@ import static ru.pascalcode.tasktracker.bot.Commands.*;
 
 @Component
 public final class Bot extends TelegramLongPollingBot implements InitializingBean {
-    private final Dotenv dotenv;
+
+    private static final String BOT_TOKEN_VARIABLE_NAME = "BOT_TOKEN";
+    private static final String BOT_NAME_VARIABLE_NAME = "BOT_NAME";
+
     private static Bot instance;
+
+    private final Dotenv dotenv;
     private final UpdateHandlerFactory updateHandlerFactory;
 
     public Bot(Dotenv dotenv, UpdateHandlerFactory updateHandlerFactory) throws TelegramApiException {
@@ -40,12 +46,12 @@ public final class Bot extends TelegramLongPollingBot implements InitializingBea
 
     @Override
     public String getBotUsername() {
-        return dotenv.get("BOT_NAME");
+        return getVariable(BOT_NAME_VARIABLE_NAME);
     }
 
     @Override
     public String getBotToken() {
-        return dotenv.get("BOT_TOKEN");
+        return getVariable(BOT_TOKEN_VARIABLE_NAME);
     }
 
     @Override
@@ -69,5 +75,11 @@ public final class Bot extends TelegramLongPollingBot implements InitializingBea
         return instance;
     }
 
+    private String getVariable(String variable) {
+        String systemEnvVariable = System.getenv(variable);
+        return StringUtils.isNotBlank(systemEnvVariable)
+             ? systemEnvVariable
+             : dotenv.get(variable);
+    }
 
 }
