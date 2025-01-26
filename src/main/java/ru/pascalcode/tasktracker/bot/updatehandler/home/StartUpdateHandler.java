@@ -18,10 +18,9 @@ public class StartUpdateHandler extends AbstractUpdateHandler {
     @Override
     protected void handle(Update update, SendMessage answer, User user) {
         answer.setText("""
-                Sup! I'm going to help you to keep track of time spent.
-                Just send me task numbers and let me know when you finish.
-                You can ask me a report for today or yesterday.
-                Stay productive!""");
+                Hi! I'm here to help you track your time.
+                Just send me task numbers and let me know when you’re done.
+                You can also ask for a report for today or yesterday.""");
     }
 
 }
