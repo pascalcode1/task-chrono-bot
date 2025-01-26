@@ -46,12 +46,12 @@ public final class Bot extends TelegramLongPollingBot implements InitializingBea
 
     @Override
     public String getBotUsername() {
-        return getVariable(BOT_NAME_VARIABLE_NAME);
+        return dotenv.get(BOT_NAME_VARIABLE_NAME);
     }
 
     @Override
     public String getBotToken() {
-        return getVariable(BOT_TOKEN_VARIABLE_NAME);
+        return dotenv.get(BOT_TOKEN_VARIABLE_NAME);
     }
 
     @Override
@@ -73,11 +73,6 @@ public final class Bot extends TelegramLongPollingBot implements InitializingBea
 
     public static Bot get() {
         return instance;
-    }
-
-    private String getVariable(String variable) {
-        String systemEnvVariable = System.getenv(variable);
-        return StringUtils.defaultIfEmpty(systemEnvVariable, dotenv.get(variable));
     }
 
 }
