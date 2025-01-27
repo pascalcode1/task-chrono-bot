@@ -1,7 +1,6 @@
 package ru.pascalcode.tasktracker.bot;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -37,7 +36,7 @@ public final class Bot extends TelegramLongPollingBot implements InitializingBea
                 .builder()
                 .command(new BotCommand(DELETE_TASKS, "Delete tasks"))
                 .command(new BotCommand(EDIT_TASKS, "Edit tasks"))
-                .command(new BotCommand(STATIC_TASKS, "Static tasks settings"))
+                .command(new BotCommand(PINNED_TASKS, "Pinned tasks settings"))
                 .command(new BotCommand(EDIT_TIME_RECORDS, "Edit time records"))
                 .command(new BotCommand(SETTINGS, "Settings"))
                 .build();

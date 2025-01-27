@@ -14,7 +14,7 @@ import ru.pascalcode.tasktracker.service.UserService;
 @Component
 public class HideStaticTaskUpdateHandler extends ToStaticTasksSettingsUpdateHandler {
 
-    private static final String TASK_REMOVED_FROM_STATIC_BAR = "The static task `%s` removed from button bar";
+    private static final String TASK_REMOVED_FROM_PINNED_TASK_BAR = "The pinned task `%s` removed from button bar";
 
     protected HideStaticTaskUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
         super(userService, taskService, taskLogService);
@@ -25,6 +25,6 @@ public class HideStaticTaskUpdateHandler extends ToStaticTasksSettingsUpdateHand
         String taskName = update.getMessage().getText().replaceFirst(Emoji.DELETE,"");
         Task task = taskService.getTask(taskName, user);
         taskService.hideTask(task);
-        answer.setText(String.format(TASK_REMOVED_FROM_STATIC_BAR, task.getName()));
+        answer.setText(String.format(TASK_REMOVED_FROM_PINNED_TASK_BAR, task.getName()));
     }
 }

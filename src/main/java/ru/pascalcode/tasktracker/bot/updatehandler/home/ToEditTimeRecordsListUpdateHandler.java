@@ -30,8 +30,8 @@ public class ToEditTimeRecordsListUpdateHandler extends AbstractUpdateHandler {
         user.setState(State.EDIT_TIME_RECORDS_LIST);
         userService.saveUser(user);
         answer.setText("""
-                Choose the time record you want to change. You can delete a record or change the start or end time.
-                Last 20 tasks are shown.""");
+                Choose the time record you want to change. You can delete a record or modify the start or end time.
+                The last 20 tasks are shown.""");
     }
 
     @Override

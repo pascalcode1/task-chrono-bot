@@ -40,6 +40,6 @@ public class TaskLogDto implements Comparable<TaskLogDto>{
 
     @Override
     public int compareTo(@NotNull TaskLogDto o) {
-        return (int) (this.getTask().getUserTaskId() - o.getTask().getUserTaskId());
+        return (int) (this.getMillis() - o.getMillis());
     }
 }

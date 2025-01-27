@@ -19,7 +19,7 @@ public class SettingsUtils {
 
     public static String getNameOfDay(int dayNumber) {
         if (dayNumber < 1 || dayNumber > 7) {
-            throw new RuntimeException("dayNumber must be in range from 1 to 7");
+            throw new RuntimeException("dayNumber must be in the range from 1 to 7");
         }
         return weekMap.get(dayNumber);
     }

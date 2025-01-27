@@ -24,9 +24,9 @@ import static ru.pascalcode.tasktracker.bot.Buttons.YESTERDAY_REPORT_BTN;
 @Component
 public class BreakUpdateHandler extends AbstractUpdateHandler {
 
-    private static final String BREAK = "⏸ The timer is on pause\n %s";
+    private static final String BREAK = "⏸ The timer is paused\n %s";
 
-    private static final String NO_TASK_TO_BRAKE = "There's no task to break 🤷";
+    private static final String NO_TASK_TO_BRAKE = "There is no task to pause 🤷";
 
     protected BreakUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
         super(userService, taskService, taskLogService);

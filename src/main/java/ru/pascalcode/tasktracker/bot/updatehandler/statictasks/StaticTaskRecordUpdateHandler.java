@@ -14,7 +14,7 @@ import ru.pascalcode.tasktracker.service.UserService;
 @Component
 public class StaticTaskRecordUpdateHandler extends ToStaticTasksSettingsUpdateHandler {
 
-    private static final String TASK_ADDED_TO_STATIC_BAR = "The task `%s` added to button bar as static /%d";
+    private static final String TASK_ADDED_TO_PINNED_TASKS_BAR = "The task `%s` has been added to the button bar /%d";
 
     public StaticTaskRecordUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
         super(userService, taskService, taskLogService);
@@ -25,6 +25,6 @@ public class StaticTaskRecordUpdateHandler extends ToStaticTasksSettingsUpdateHa
     protected void handle(Update update, SendMessage answer, User user) {
         String taskName = update.getMessage().getText();
         Task task = taskService.getStaticTask(taskName, user);
-        answer.setText(String.format(TASK_ADDED_TO_STATIC_BAR, task.getName(), task.getUserTaskId()));
+        answer.setText(String.format(TASK_ADDED_TO_PINNED_TASKS_BAR, task.getName(), task.getUserTaskId()));
     }
 }

@@ -4,7 +4,7 @@ public enum State {
     HOME(0, "Home"),
     SETTINGS(1, "Settings"),
     DELETE(2, "Delete tasks"),
-    STATIC_TASKS(3, "Static tasks"),
+    PINNED_TASKS(3, "Pinned tasks"),
     EDIT_TASKS(4, "Edit"),
     EDIT_CONFIRM(5, "Confirm editing"),
     EDIT_TIME_RECORDS_LIST(6, "Edit time records list"),

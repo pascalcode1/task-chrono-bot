@@ -20,9 +20,9 @@ import static ru.pascalcode.tasktracker.bot.Buttons.*;
 public abstract class AbstractSettingsUpdateHandler extends AbstractUpdateHandler {
 
     private static final String CURRENT_SETTINGS_MESSAGE = "Current settings of the bot";
-    private static final String WEEK_PROGRESS_ON_MESSAGE = "✅ Weekly progress included to report";
-    private static final String WEEK_PROGRESS_OFF_MESSAGE = "❌ Weekly progress excluded from report";
-    private static final String FIRST_DAY_OF_WEEK_MESSAGE = "📆 First day of week: %s";
+    private static final String WEEK_PROGRESS_ON_MESSAGE = "✅ Weekly progress included in the report";
+    private static final String WEEK_PROGRESS_OFF_MESSAGE = "❌ Weekly progress excluded from the report";
+    private static final String FIRST_DAY_OF_WEEK_MESSAGE = "📆 First day of the week: %s";
     private static final String WIN_WEEK_HOURS_MESSAGE = "🕔 Standard hours per week: %s";
 
     protected AbstractSettingsUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {

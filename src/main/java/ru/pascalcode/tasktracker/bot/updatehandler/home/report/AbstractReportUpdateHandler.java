@@ -50,9 +50,9 @@ public abstract class AbstractReportUpdateHandler extends AbstractUpdateHandler 
         int firstDayOfWeek = user.getFirstDayOfWeek();
         int plannedHours = user.getMinWeekHours();
         int currentDayOfWeek = reportDay.getDayOfWeek().getValue();
-        int dayDiff = currentDayOfWeek >= firstDayOfWeek ?
-                currentDayOfWeek - firstDayOfWeek :
-                currentDayOfWeek + firstDayOfWeek - 1;
+        int dayDiff = currentDayOfWeek >= firstDayOfWeek
+                    ? currentDayOfWeek - firstDayOfWeek
+                    : currentDayOfWeek + firstDayOfWeek - 1;
         LocalDateTime start = reportDay.minusDays(dayDiff).with(LocalTime.MIN);
         LocalDateTime stop = reportDay.with(LocalTime.MAX);
         List<TaskLog> taskLogList = taskLogService.getReport(user, start, stop);

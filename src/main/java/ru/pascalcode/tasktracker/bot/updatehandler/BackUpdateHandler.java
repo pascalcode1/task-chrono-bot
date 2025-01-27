@@ -23,7 +23,7 @@ import static ru.pascalcode.tasktracker.bot.Buttons.*;
 @Component
 public class BackUpdateHandler extends AbstractReportUpdateHandler { //TODO need to change
 
-    private static final String TASK_IN_PROGRESS = "👨‍💻 The task `%s` in progress /%d";
+    private static final String TASK_IN_PROGRESS = "👨‍💻 The task `%s` is in progress /%d";
     protected BackUpdateHandler(UserService userService, TaskService taskService, TaskLogService taskLogService) {
         super(userService, taskService, taskLogService);
     }

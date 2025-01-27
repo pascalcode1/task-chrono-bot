@@ -32,7 +32,7 @@ public class ToEditListUpdateHandler extends AbstractUpdateHandler {
         userService.saveUser(user);
         answer.setText("""
                 Send the task you want to rename.
-                Last 20 tasks are shown. If you want to rename another task, just send it's name.""");
+                The last 20 tasks are shown. If you want to rename a different task, just send its name.""");
     }
 
     @Override

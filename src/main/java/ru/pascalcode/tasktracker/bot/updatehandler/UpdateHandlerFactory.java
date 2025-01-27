@@ -46,7 +46,7 @@ public class UpdateHandlerFactory {
             case HOME -> getHomeUpdateHandler(text);
             case SETTINGS -> getSettingsUpdateHandler(text);
             case DELETE -> getDeleteUpdateHandler(text);
-            case STATIC_TASKS -> getStaticTasksUpdateHandler(text);
+            case PINNED_TASKS -> getStaticTasksUpdateHandler(text);
             case EDIT_TASKS -> getEditUpdateHandler(text);
             case EDIT_CONFIRM -> getEditConfirmUpdateHandler(text);
             case EDIT_TIME_RECORDS_LIST -> getEditTimeRecordsUpdateHandler(text);
@@ -64,7 +64,7 @@ public class UpdateHandlerFactory {
             case DELETE_TASKS -> (ToDeleteListUpdateHandler) applicationContext.getBean("toDeleteListUpdateHandler");
             case EDIT_TASKS -> (ToEditListUpdateHandler) applicationContext.getBean("toEditListUpdateHandler");
             case EDIT_TIME_RECORDS -> (ToEditTimeRecordsListUpdateHandler) applicationContext.getBean("toEditTimeRecordsListUpdateHandler");
-            case STATIC_TASKS -> (ToStaticTasksSettingsUpdateHandler) applicationContext.getBean("toStaticTasksSettingsUpdateHandler");
+            case PINNED_TASKS -> (ToStaticTasksSettingsUpdateHandler) applicationContext.getBean("toStaticTasksSettingsUpdateHandler");
             case SETTINGS -> (SettingsUpdateHandler) applicationContext.getBean("settingsUpdateHandler");
             case BREAK_BTN -> (BreakUpdateHandler) applicationContext.getBean("breakUpdateHandler");
             case TODAY_REPORT_BTN -> (TodayReportUpdateHandler) applicationContext.getBean("todayReportUpdateHandler");

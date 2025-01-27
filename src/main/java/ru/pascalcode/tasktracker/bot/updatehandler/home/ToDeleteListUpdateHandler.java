@@ -31,8 +31,8 @@ public class ToDeleteListUpdateHandler extends AbstractUpdateHandler {
         userService.saveUser(user);
         answer.setText("""
                 Select the task you want to delete.
-                Last 20 tasks are shown. If you want to delete another task, just send it's name.
-                ATTENTION! Selected tasks will no longer appear in reports.""");
+                The last 20 tasks are shown. If you want to delete a different task, just send its name.
+                ATTENTION! Selected tasks will be deleted permanently and will no longer appear in reports.""");
     }
 
     @Override

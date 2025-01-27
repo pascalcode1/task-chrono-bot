@@ -26,11 +26,11 @@ public class ToStaticTasksSettingsUpdateHandler extends AbstractUpdateHandler {
 
     @Override
     protected void handle(Update update, SendMessage answer, User user) {
-        user.setState(State.STATIC_TASKS);
+        user.setState(State.PINNED_TASKS);
         userService.saveUser(user);
         answer.setText("""
-                Send a name of task you want to make static on the button bar.
-                Push the button with static task to hide it.""");
+                Send the name of the task you want to pin to the button bar.
+                Press the button with the pinned task to hide it.""");
     }
 
     @Override
