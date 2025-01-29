@@ -9,5 +9,6 @@ public class Emoji {
     public static final String TIME_START = "🕛";
     public static final String TIME_STOP = "🕒";
     public static final String ID = "🆔";
+    public static final String SETTINGS = "⚙";
 
 }
