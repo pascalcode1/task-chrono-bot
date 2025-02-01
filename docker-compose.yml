@@ -1,11 +1,11 @@
 volumes:
   postgres_data:
     driver: local
-    name: task_chrono_bot_postgres
+    name: db
 
 services:
   bot:
-    container_name: task_chrono_bot
+    container_name: app
     image: ghcr.io/pascalcode1/task-chrono-bot:latest
     restart: always
     depends_on:
@@ -21,7 +21,7 @@ services:
       - .env
 
   postgres:
-    container_name: task_chrono_bot_postgres
+    container_name: db
     image: postgres
     restart: always
     volumes:
