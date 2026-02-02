@@ -1,6 +1,5 @@
 volumes:
   postgres_data:
-    driver: local
     name: db
 
 services:
@@ -10,13 +9,6 @@ services:
     restart: always
     depends_on:
       - postgres
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_JDBC_URL=${POSTGRES_JDBC_URL}
-      - POSTGRES_SCHEMA=${POSTGRES_SCHEMA}
-      - BOT_NAME=${BOT_NAME}
-      - BOT_TOKEN=${BOT_TOKEN}
     env_file:
       - .env
 
@@ -25,10 +17,7 @@ services:
     image: postgres
     restart: always
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - db:/var/lib/postgresql/data
     env_file:
       - .env
     ports:
