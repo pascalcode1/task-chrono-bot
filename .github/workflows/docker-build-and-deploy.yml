@@ -72,12 +72,12 @@ jobs:
 
       - name: Upload docker-compose.yml via scp
         run: |
-          scp -i ~/.ssh/id_ed25519 docker-compose.yml ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/${{ secrets.VPS_USER }}/task-chrono-bot/
+          scp -i ~/.ssh/id_ed25519 docker-compose.yml ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/${{ secrets.VPS_USER }}/var/www/task-chrono-bot
 
       - name: Update and reload container
         run: |
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            cd /${{ secrets.VPS_USER }}/task-chrono-bot
+            cd /${{ secrets.VPS_USER }}/var/www/task-chrono-bot
             docker compose pull
             docker compose down
             docker compose up -d
